@@ -1,9 +1,7 @@
 import AboutPage from "@/components/about/AboutPage";
 
 const AboutRoute = () => {
-    return (
-        <AboutPage />
-    )
-}
+  return <AboutPage />;
+};
 
 export default AboutRoute;

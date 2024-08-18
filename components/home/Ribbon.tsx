@@ -1,28 +1,34 @@
-import {View, StyleSheet} from "react-native";
-import SurveyToAnswerButton, {SurveyToAnswer} from "./SurveyToAnswerButton"
-import SurveyDonut from "@/components/home/SurveyDonut";
+import { View, StyleSheet } from "react-native";
+import AssignmentToCompleteButton, {
+  AssignmentToComplete,
+} from "./AssignmentToCompleteButton";
+import AssignmentDonut from "@/components/home/AssignmentDonut";
 
 type RibbonProps = {
-    surveyToAnswer?: SurveyToAnswer | undefined;
-}
-
-const Ribbon = ({surveyToAnswer}: RibbonProps) => {
-
-    // TODO: no survey answered yet
-    return (
-        <View>
-            {surveyToAnswer
-                ? <SurveyToAnswerButton surveyToAnswer={surveyToAnswer} />
-                : <SurveyDonut style={styles.surveyDonut} answeredSurveys={180} totalSurveys={200} />}
-        </View>
-    )
+  surveyToAnswer?: AssignmentToComplete | undefined;
 };
 
+const Ribbon = ({ surveyToAnswer }: RibbonProps) => {
+  // TODO: no survey answered yet
+  return (
+    <View>
+      {surveyToAnswer ? (
+        <AssignmentToCompleteButton assignmentToComplete={surveyToAnswer} />
+      ) : (
+        <AssignmentDonut
+          style={styles.surveyDonut}
+          answeredAssignments={180}
+          totalAssignments={200}
+        />
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    surveyDonut: {
-        padding: 20,
-    }
-})
+  surveyDonut: {
+    padding: 20,
+  },
+});
 
 export default Ribbon;
