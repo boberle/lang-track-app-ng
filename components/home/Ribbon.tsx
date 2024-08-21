@@ -5,11 +5,16 @@ import AssignmentToCompleteButton, {
 import AssignmentDonut from "@/components/home/AssignmentDonut";
 
 type RibbonProps = {
-  surveyToAnswer?: AssignmentToComplete | undefined;
+  answeredAssignments: number;
+  totalAssignments: number;
+  surveyToAnswer: AssignmentToComplete | null;
 };
 
-const Ribbon = ({ surveyToAnswer }: RibbonProps) => {
-  // TODO: no survey answered yet
+const Ribbon = ({
+  answeredAssignments,
+  totalAssignments,
+  surveyToAnswer,
+}: RibbonProps) => {
   return (
     <View>
       {surveyToAnswer ? (
@@ -17,8 +22,8 @@ const Ribbon = ({ surveyToAnswer }: RibbonProps) => {
       ) : (
         <AssignmentDonut
           style={styles.surveyDonut}
-          answeredAssignments={180}
-          totalAssignments={200}
+          answeredAssignments={answeredAssignments}
+          totalAssignments={totalAssignments}
         />
       )}
     </View>

@@ -5,9 +5,14 @@ type AssignmentListItemType = {
   date: Date;
 };
 
+type PendingAssignmentType = {
+  id: number;
+  expiredAt: Date;
+};
+
 type AssignmentListType = {
   assignments: AssignmentListItemType[];
-  total_assignments: number;
-  answered_assignments: number;
-  pending_assignments: number;
+  totalAssignments: number;
+  answeredAssignments: number;
+  pendingAssignment: PendingAssignmentType | null;
 };

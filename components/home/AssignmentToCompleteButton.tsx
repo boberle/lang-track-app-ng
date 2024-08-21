@@ -16,7 +16,7 @@ const AssignmentToCompleteButton = ({
   style,
 }: AssignmentToCompleteButtonProps) => {
   const remainingTimeMilli =
-    new Date().valueOf() - assignmentToComplete.expiredAt.valueOf();
+    assignmentToComplete.expiredAt.valueOf() - new Date().valueOf();
   const remainingTime = Math.floor(remainingTimeMilli / 1000 / 60);
 
   return (
