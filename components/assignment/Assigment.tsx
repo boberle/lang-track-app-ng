@@ -4,22 +4,11 @@ import SingleChoiceQuestion from "@/components/assignment/question/SingleChoiceQ
 import Submit from "@/components/assignment/Submit";
 import MultipleChoiceQuestion from "@/components/assignment/question/MultipleChoiceQuestion";
 import OpenEndedQuestion from "@/components/assignment/question/OpenEndedQuestion";
-
-export type QuestionType = "singleChoice" | "multipleChoice" | "openEnded";
-export type AnswerType = string | number | number[];
-
-export type Question = {
-  message: string;
-  type: QuestionType;
-  values?: string[];
-};
-
-export type AssignmentType = {
-  id: number;
-  welcomeMessage: string;
-  submitMessage: string;
-  questions: Question[];
-};
+import {
+  isMultipleChoiceQuestion,
+  isOpenEndedQuestion,
+  isSingleChoiceQuestion,
+} from "@/types/guards";
 
 export type AssignmentProps = {
   assignment: AssignmentType;
@@ -92,50 +81,46 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
     );
   } else {
     const question = assignment.questions[position];
-    switch (question.type) {
-      case "singleChoice":
-        element = (
-          <SingleChoiceQuestion
-            key={position}
-            message={question.message}
-            choices={question.values!}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            onChange={handleChange}
-            enableNextButton={isValidAnswer()}
-            initialValue={answers[position] as number | null}
-          />
-        );
-        break;
-      case "multipleChoice":
-        element = (
-          <MultipleChoiceQuestion
-            key={position}
-            message={question.message}
-            choices={question.values!}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            onChange={handleChange}
-            enableNextButton={isValidAnswer()}
-            initialValues={answers[position] as number[] | null}
-          />
-        );
-        break;
-      case "openEnded":
-        element = (
-          <OpenEndedQuestion
-            key={position}
-            message={question.message}
-            initialValue={answers[position] as string | null}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            onChange={handleChange}
-            enableNextButton={isValidAnswer()}
-          />
-        );
-        break;
-      default:
-        throw new Error(`Unknown question type: ${question.type}`);
+    if (isSingleChoiceQuestion(question)) {
+      element = (
+        <SingleChoiceQuestion
+          key={position}
+          message={question.message}
+          choices={question.values!}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onChange={handleChange}
+          enableNextButton={isValidAnswer()}
+          initialValue={answers[position] as number | null}
+        />
+      );
+    } else if (isMultipleChoiceQuestion(question)) {
+      element = (
+        <MultipleChoiceQuestion
+          key={position}
+          message={question.message}
+          choices={question.values!}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onChange={handleChange}
+          enableNextButton={isValidAnswer()}
+          initialValues={answers[position] as number[] | null}
+        />
+      );
+    } else if (isOpenEndedQuestion(question)) {
+      element = (
+        <OpenEndedQuestion
+          key={position}
+          message={question.message}
+          initialValue={answers[position] as string | null}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onChange={handleChange}
+          enableNextButton={isValidAnswer()}
+        />
+      );
+    } else {
+      throw new Error("Unknown question type");
     }
   }
 

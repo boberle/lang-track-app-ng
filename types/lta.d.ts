@@ -16,3 +16,35 @@ type AssignmentListType = {
   answeredAssignments: number;
   pendingAssignment: PendingAssignmentType | null;
 };
+
+type AnswerType = string | number | number[];
+
+type BaseQuestionType = {
+  message: string;
+};
+
+type SingleChoiceQuestion = BaseQuestionType & {
+  type: "singleChoice";
+  values: string[];
+};
+
+type MultipleChoiceQuestion = BaseQuestionType & {
+  type: "multipleChoice";
+  values: string[];
+};
+
+type OpenEndedQuestion = BaseQuestionType & {
+  type: "openEnded";
+  maxLength?: number;
+};
+
+type AssignmentType = {
+  id: number;
+  welcomeMessage: string;
+  submitMessage: string;
+  questions: (
+    | SingleChoiceQuestion
+    | MultipleChoiceQuestion
+    | OpenEndedQuestion
+  )[];
+};
