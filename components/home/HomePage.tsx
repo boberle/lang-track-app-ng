@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Ribbon from "./Ribbon";
 import AssignmentList from "@/components/home/AssignmentList";
 import useFetchAssignmentList from "@/hooks/fetch_assigments";
@@ -17,7 +17,7 @@ const HomePage = ({ userId }: HomePageProps) => {
 
   useEffect(() => {
     fetchAssignmentList(userId);
-  }, [fetchAssignmentList]);
+  }, [fetchAssignmentList, userId]);
 
   if (isLoading) {
     return <CommonLoadingComponent />;

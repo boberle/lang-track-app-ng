@@ -118,7 +118,7 @@ const useFetchAssignmentList = () => {
     try {
       const convertedData = convertDAOToAssignmentList(data);
       setAssignmentList(convertedData);
-    } catch (error) {
+    } catch {
       setIsError(true);
     }
   }, [data]);

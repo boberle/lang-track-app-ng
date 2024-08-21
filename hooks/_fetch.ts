@@ -50,7 +50,7 @@ const useFetch = (): UseFetchReturnType => {
         }
         const json = await response.json();
         setData(transformer ? transformer(json) : json);
-      } catch (error) {
+      } catch {
         setIsError(true);
       } finally {
         setIsLoading(false);
