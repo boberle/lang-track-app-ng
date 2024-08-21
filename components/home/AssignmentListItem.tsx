@@ -1,14 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export type Assignment = {
-  id: number;
-  title: string;
-  answered: boolean;
-  date: Date;
-};
-
 export type AssignmentListItemProps = {
-  assignment: Assignment;
+  assignment: AssignmentListItemType;
 };
 
 const AssignmentListItem = ({ assignment }: AssignmentListItemProps) => {

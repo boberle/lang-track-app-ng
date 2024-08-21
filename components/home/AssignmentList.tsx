@@ -1,21 +1,48 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import AssignmentListItem, { Assignment } from "./AssignmentListItem";
+import AssignmentListItem from "./AssignmentListItem";
+import useFetchAssignmentList from "@/hooks/fetch_assigments";
+import { useEffect } from "react";
+import CommonErrorComponent from "@/components/common/CommonErrorComponent";
+import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 
 export type AssignmentListProps = {
-  assignments: Assignment[];
+  userId: number;
 };
 
-const AssignmentList = ({ assignments }: AssignmentListProps) => {
-  if (!assignments.length) {
+const AssignmentList = ({ userId }: AssignmentListProps) => {
+  const { assignmentList, isError, isLoading, fetchAssignmentList } =
+    useFetchAssignmentList();
+
+  useEffect(() => {
+    fetchAssignmentList(userId);
+  }, [fetchAssignmentList]);
+
+  if (isLoading) {
+    return <CommonLoadingComponent />;
+  }
+
+  if (isError) {
+    return <CommonErrorComponent />;
+  }
+
+  if (!assignmentList.length) {
     return <NoAssignment />;
   }
 
+  return <_AssignmentList assignments={assignmentList} />;
+};
+
+const _AssignmentList = ({
+  assignments,
+}: {
+  assignments: AssignmentListItemType[];
+}) => {
   return (
     <View style={styles.container}>
       <FlatList
         data={assignments}
         renderItem={({ item }) => <AssignmentListItem assignment={item} />}
-        keyExtractor={(item: Assignment) => item.id.toString()}
+        keyExtractor={(item: AssignmentListItemType) => item.id.toString()}
       />
     </View>
   );
@@ -23,7 +50,7 @@ const AssignmentList = ({ assignments }: AssignmentListProps) => {
 
 const NoAssignment = () => {
   return (
-    <View>
+    <View style={styles.noAssignmentYetContainer}>
       <Text>No assignment yet.</Text>
     </View>
   );
@@ -32,6 +59,11 @@ const NoAssignment = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  noAssignmentYetContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
