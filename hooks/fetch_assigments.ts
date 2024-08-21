@@ -11,10 +11,22 @@ type AssignmentListItemResponse = {
 
 type AssignmentListResponse = {
   assignments: AssignmentListItemResponse[];
+  total_assignments: number;
+  answered_assignments: number;
+  pending_assignments: number;
 };
 
 const isAssignmentListResponse = (o: any): o is AssignmentListResponse => {
-  if (typeof o !== "object" || !("assignments" in o)) return false;
+  if (typeof o !== "object") return false;
+  if (
+    !(
+      "assignments" in o &&
+      "total_assignments" in o &&
+      "answered_assignments" in o &&
+      "pending_assignments" in o
+    )
+  )
+    return false;
   if (!Array.isArray(o.assignments)) return false;
   return o.assignments.every(
     (item: any) =>
@@ -26,17 +38,25 @@ const isAssignmentListResponse = (o: any): o is AssignmentListResponse => {
   );
 };
 
-const convertDAOToAssignmentList = (dao: any): AssignmentListItemType[] => {
+const convertDAOToAssignmentList = (dao: any): AssignmentListType => {
   if (!isAssignmentListResponse(dao)) {
     throw new Error("Invalid assignment list data");
   }
   try {
-    return dao.assignments.map((item) => ({
-      id: item.id,
-      title: item.title,
-      answered: item.answered,
-      date: new Date(item.date),
-    }));
+    const assignments: AssignmentListItemType[] = dao.assignments.map(
+      (item) => ({
+        id: item.id,
+        title: item.title,
+        answered: item.answered,
+        date: new Date(item.date),
+      }),
+    );
+    return {
+      assignments,
+      total_assignments: dao.total_assignments,
+      answered_assignments: dao.answered_assignments,
+      pending_assignments: dao.pending_assignments,
+    };
   } catch {
     throw new Error("Failed to convert DAO to assignment list");
   }
@@ -45,9 +65,8 @@ const convertDAOToAssignmentList = (dao: any): AssignmentListItemType[] => {
 const useFetchAssignmentList = () => {
   const { data, isLoading, isError: isFetchError, fetchData } = useFetch();
   const [isError, setIsError] = useState<boolean>(false);
-  const [assignmentList, setAssignmentList] = useState<
-    AssignmentListItemType[]
-  >([]);
+  const [assignmentList, setAssignmentList] =
+    useState<AssignmentListType | null>(null);
 
   const fetchAssignmentList = useCallback(
     async (userId: number) => {
@@ -60,7 +79,7 @@ const useFetchAssignmentList = () => {
 
   useEffect(() => {
     if (data === null) {
-      setAssignmentList([]);
+      setAssignmentList(null);
       return;
     }
     try {

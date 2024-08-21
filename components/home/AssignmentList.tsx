@@ -25,11 +25,11 @@ const AssignmentList = ({ userId }: AssignmentListProps) => {
     return <CommonErrorComponent />;
   }
 
-  if (!assignmentList.length) {
+  if (assignmentList == null || !assignmentList.assignments.length) {
     return <NoAssignment />;
   }
 
-  return <_AssignmentList assignments={assignmentList} />;
+  return <_AssignmentList assignments={assignmentList.assignments} />;
 };
 
 const _AssignmentList = ({
