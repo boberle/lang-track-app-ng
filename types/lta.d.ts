@@ -25,12 +25,12 @@ type BaseQuestionType = {
 
 type SingleChoiceQuestion = BaseQuestionType & {
   type: "singleChoice";
-  values: string[];
+  choices: string[];
 };
 
 type MultipleChoiceQuestion = BaseQuestionType & {
   type: "multipleChoice";
-  values: string[];
+  choices: string[];
 };
 
 type OpenEndedQuestion = BaseQuestionType & {

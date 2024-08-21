@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Welcome from "@/components/assignment/Welcome";
 import SingleChoiceQuestion from "@/components/assignment/question/SingleChoiceQuestion";
 import Submit from "@/components/assignment/Submit";
@@ -9,20 +9,48 @@ import {
   isOpenEndedQuestion,
   isSingleChoiceQuestion,
 } from "@/types/guards";
+import useFetchAssignment from "@/hooks/fetch_assigment";
+import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
+import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 
 export type AssignmentProps = {
+  assignmentId: number;
+  onSubmit: (answers: AnswerType[]) => void;
+  onClose: () => void;
+};
+
+const Assigment = ({ assignmentId, onSubmit, onClose }: AssignmentProps) => {
+  const { assignment, isError, isLoading, fetchAssignment } =
+    useFetchAssignment();
+
+  useEffect(() => {
+    fetchAssignment(assignmentId);
+  }, [fetchAssignment, assignmentId]);
+
+  if (isLoading) {
+    return <CommonLoadingComponent />;
+  }
+
+  if (isError || assignment == null) {
+    return <CommonErrorComponent />;
+  }
+
+  return (
+    <_Assigment assignment={assignment} onSubmit={onSubmit} onClose={onClose} />
+  );
+};
+
+export type _AssignmentProps = {
   assignment: AssignmentType;
   onSubmit: (answers: AnswerType[]) => void;
   onClose: () => void;
 };
 
-const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
+const _Assigment = ({ assignment, onSubmit, onClose }: _AssignmentProps) => {
   const [position, setPosition] = useState<number | null>(null);
   const [answers, setAnswers] = useState<(AnswerType | null)[]>(() =>
     Array(assignment.questions.length).fill(null),
   );
-
-  let element: ReactElement;
 
   const handleNext = () => {
     setPosition((v) => (v == null ? null : v + 1));
@@ -63,7 +91,7 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
   };
 
   if (position == null) {
-    element = (
+    return (
       <Welcome
         message={assignment.welcomeMessage}
         onClose={onClose}
@@ -71,7 +99,7 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
       />
     );
   } else if (position >= assignment.questions.length) {
-    element = (
+    return (
       <Submit
         message={assignment.submitMessage}
         onNext={handleSubmit}
@@ -82,11 +110,11 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
   } else {
     const question = assignment.questions[position];
     if (isSingleChoiceQuestion(question)) {
-      element = (
+      return (
         <SingleChoiceQuestion
           key={position}
           message={question.message}
-          choices={question.values!}
+          choices={question.choices!}
           onNext={handleNext}
           onPrevious={handlePrevious}
           onChange={handleChange}
@@ -95,11 +123,11 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
         />
       );
     } else if (isMultipleChoiceQuestion(question)) {
-      element = (
+      return (
         <MultipleChoiceQuestion
           key={position}
           message={question.message}
-          choices={question.values!}
+          choices={question.choices!}
           onNext={handleNext}
           onPrevious={handlePrevious}
           onChange={handleChange}
@@ -108,7 +136,7 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
         />
       );
     } else if (isOpenEndedQuestion(question)) {
-      element = (
+      return (
         <OpenEndedQuestion
           key={position}
           message={question.message}
@@ -123,8 +151,6 @@ const Assigment = ({ assignment, onSubmit, onClose }: AssignmentProps) => {
       throw new Error("Unknown question type");
     }
   }
-
-  return element;
 };
 
 export default Assigment;

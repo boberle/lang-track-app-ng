@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import useFetch from "./_fetch";
-import { buildListAssignmentURL } from "./_url_builders";
+import { buildGetAssignmentURL } from "./_url_builders";
 
 type SingleChoiceQuestionResponse = {
   type: "single-choice";
   message: string;
-  values: string[];
+  choices: string[];
 };
 
 const isSingleChoiceQuestionResponse = (
@@ -16,15 +16,15 @@ const isSingleChoiceQuestionResponse = (
     !(
       "type" in o &&
       "message" in o &&
-      "values" in o &&
+      "choices" in o &&
       o.type === "single-choice"
     )
   )
     return false;
 
-  if (!Array.isArray(o.values)) return false;
+  if (!Array.isArray(o.choices)) return false;
 
-  if (o.values.length === 0) return false;
+  if (o.choices.length === 0) return false;
 
   return true;
 };
@@ -35,14 +35,14 @@ const convertSingleChoiceQuestionResponseToQuestion = (
   return {
     type: "singleChoice",
     message: o.message,
-    values: o.values,
+    choices: o.choices,
   };
 };
 
 type MultipleChoiceQuestionResponse = {
   type: "multiple-choice";
   message: string;
-  values: string[];
+  choices: string[];
 };
 
 const isMultipleChoiceQuestionResponse = (
@@ -53,15 +53,15 @@ const isMultipleChoiceQuestionResponse = (
     !(
       "type" in o &&
       "message" in o &&
-      "values" in o &&
+      "choices" in o &&
       o.type === "multiple-choice"
     )
   )
     return false;
 
-  if (!Array.isArray(o.values)) return false;
+  if (!Array.isArray(o.choices)) return false;
 
-  if (o.values.length === 0) return false;
+  if (o.choices.length === 0) return false;
 
   return true;
 };
@@ -72,7 +72,7 @@ const convertMultipleChoiceQuestionResponseToQuestion = (
   return {
     type: "multipleChoice",
     message: o.message,
-    values: o.values,
+    choices: o.choices,
   };
 };
 
@@ -86,14 +86,7 @@ const isOpenEndedQuestionResponse = (
   o: any,
 ): o is OpenEndedQuestionResponse => {
   if (typeof o !== "object") return false;
-  if (
-    !("type" in o && "message" in o && "values" in o && o.type === "open-ended")
-  )
-    return false;
-
-  if (!Array.isArray(o.values)) return false;
-
-  if (o.values.length === 0) return false;
+  if (!("type" in o && "message" in o && o.type === "open-ended")) return false;
 
   return true;
 };
@@ -193,7 +186,7 @@ const useFetchAssignment = () => {
   const fetchAssignment = useCallback(
     async (assignmentId: number) => {
       setIsError(false);
-      const url = buildListAssignmentURL(assignmentId);
+      const url = buildGetAssignmentURL(assignmentId);
       fetchData(url);
     },
     [fetchData],
