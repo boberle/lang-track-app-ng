@@ -6,6 +6,7 @@ type UseFetchReturnType = {
   data: JsonData | null;
   isLoading: boolean;
   isError: boolean;
+  statusCode: number | null;
   fetchData: (
     url: URL,
     method?: string,
@@ -18,6 +19,7 @@ const useFetch = (): UseFetchReturnType => {
   const [data, setData] = useState<JsonData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
+  const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const fetchData = useCallback(
     async (
@@ -28,6 +30,7 @@ const useFetch = (): UseFetchReturnType => {
     ) => {
       setIsError(false);
       setIsLoading(true);
+      setStatusCode(null);
 
       const headers: { [key: string]: string } = {};
       const options: { [key: string]: any } = {
@@ -45,6 +48,7 @@ const useFetch = (): UseFetchReturnType => {
 
       try {
         const response = await fetch(url.href, options);
+        setStatusCode(response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -59,7 +63,7 @@ const useFetch = (): UseFetchReturnType => {
     [],
   );
 
-  return { data, isLoading, isError, fetchData };
+  return { data, isLoading, isError, statusCode, fetchData };
 };
 
 export default useFetch;
