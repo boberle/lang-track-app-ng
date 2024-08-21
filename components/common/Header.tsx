@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <View style={styles.container}>
       <View style={styles.flexContainer}>
-        <Text style={styles.title}>Lang App Track NG</Text>
+        <Text style={styles.title}>Lang Track App NG</Text>
         <Logo height={40} />
       </View>
     </View>
