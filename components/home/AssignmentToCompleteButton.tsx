@@ -1,5 +1,6 @@
-import { Text, View, StyleSheet, ViewStyle, Pressable } from "react-native";
+import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { Link } from "expo-router";
+import { useEffect, useState } from "react";
 
 export type AssignmentToComplete = {
   id: number;
@@ -15,9 +16,21 @@ const AssignmentToCompleteButton = ({
   assignmentToComplete,
   style,
 }: AssignmentToCompleteButtonProps) => {
-  const remainingTimeMilli =
-    assignmentToComplete.expiredAt.valueOf() - new Date().valueOf();
-  const remainingTime = Math.floor(remainingTimeMilli / 1000 / 60);
+  const computeRemainingTime = (): number => {
+    const remainingTimeMilli =
+      assignmentToComplete.expiredAt.valueOf() - new Date().valueOf();
+    return Math.floor(remainingTimeMilli / 1000 / 60);
+  };
+
+  const [remainingTime, setRemainingTime] =
+    useState<number>(computeRemainingTime);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setRemainingTime(computeRemainingTime);
+    }, 60 * 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <View style={[styles.container, style]}>
