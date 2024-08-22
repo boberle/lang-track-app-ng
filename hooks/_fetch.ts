@@ -15,9 +15,9 @@ type UseFetchReturnType = {
   ) => void;
 };
 
-const useFetch = (): UseFetchReturnType => {
+const useFetch = (defaultIsLoading: boolean = false): UseFetchReturnType => {
   const [data, setData] = useState<JsonData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(defaultIsLoading);
   const [isError, setIsError] = useState<boolean>(false);
   const [statusCode, setStatusCode] = useState<number | null>(null);
 

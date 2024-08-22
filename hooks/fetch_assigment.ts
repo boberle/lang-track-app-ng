@@ -179,7 +179,7 @@ const convertDAOToAssignment = (dao: any): AssignmentType => {
 };
 
 const useFetchAssignment = () => {
-  const { data, isLoading, isError: isFetchError, fetchData } = useFetch();
+  const { data, isLoading, isError: isFetchError, fetchData } = useFetch(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [assignment, setAssignment] = useState<AssignmentType | null>(null);
 

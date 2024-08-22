@@ -96,7 +96,7 @@ const convertDAOToAssignmentList = (dao: any): AssignmentListType => {
 };
 
 const useFetchAssignmentList = () => {
-  const { data, isLoading, isError: isFetchError, fetchData } = useFetch();
+  const { data, isLoading, isError: isFetchError, fetchData } = useFetch(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [assignmentList, setAssignmentList] =
     useState<AssignmentListType | null>(null);
