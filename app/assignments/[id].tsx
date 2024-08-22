@@ -12,10 +12,6 @@ const AssignmentsRoute = () => {
   return (
     <Assigment
       assignmentId={parseInt(id)}
-      onSubmit={(answers) => {
-        console.log(answers);
-        router.navigate("/");
-      }}
       onClose={() => router.navigate("/")}
     />
   );

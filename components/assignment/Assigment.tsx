@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Welcome from "@/components/assignment/Welcome";
 import SingleChoiceQuestion from "@/components/assignment/question/SingleChoiceQuestion";
 import Submit from "@/components/assignment/Submit";
@@ -15,11 +15,10 @@ import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 
 export type AssignmentProps = {
   assignmentId: number;
-  onSubmit: (answers: AnswerType[]) => void;
   onClose: () => void;
 };
 
-const Assigment = ({ assignmentId, onSubmit, onClose }: AssignmentProps) => {
+const Assigment = ({ assignmentId, onClose }: AssignmentProps) => {
   const { assignment, isError, isLoading, fetchAssignment } =
     useFetchAssignment();
 
@@ -35,18 +34,15 @@ const Assigment = ({ assignmentId, onSubmit, onClose }: AssignmentProps) => {
     return <CommonErrorComponent />;
   }
 
-  return (
-    <_Assigment assignment={assignment} onSubmit={onSubmit} onClose={onClose} />
-  );
+  return <_Assigment assignment={assignment} onClose={onClose} />;
 };
 
 export type _AssignmentProps = {
   assignment: AssignmentType;
-  onSubmit: (answers: AnswerType[]) => void;
   onClose: () => void;
 };
 
-const _Assigment = ({ assignment, onSubmit, onClose }: _AssignmentProps) => {
+const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
   const [position, setPosition] = useState<number | null>(null);
   const [answers, setAnswers] = useState<(AnswerType | null)[]>(() =>
     Array(assignment.questions.length).fill(null),
@@ -83,13 +79,6 @@ const _Assigment = ({ assignment, onSubmit, onClose }: _AssignmentProps) => {
     return answers.every((answer) => answer != null);
   };
 
-  const handleSubmit = () => {
-    if (!areValidAnswers()) {
-      return;
-    }
-    onSubmit(answers as AnswerType[]);
-  };
-
   if (position == null) {
     return (
       <Welcome
@@ -99,10 +88,17 @@ const _Assigment = ({ assignment, onSubmit, onClose }: _AssignmentProps) => {
       />
     );
   } else if (position >= assignment.questions.length) {
+    if (!areValidAnswers()) {
+      return (
+        <CommonErrorComponent message="An error occurred. Answers are not valid." />
+      );
+    }
     return (
       <Submit
         message={assignment.submitMessage}
-        onNext={handleSubmit}
+        assignmentId={assignment.id}
+        answers={answers as AnswerType[]}
+        onSubmit={onClose}
         onPrevious={handlePrevious}
         enableNextButton={areValidAnswers()}
       />
