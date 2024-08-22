@@ -141,6 +141,7 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
           onPrevious={handlePrevious}
           onChange={handleChange}
           enableNextButton={isValidAnswer()}
+          maxLength={question.maxLength}
         />
       );
     } else {

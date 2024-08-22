@@ -97,6 +97,7 @@ const convertOpenEndedQuestionResponseToQuestion = (
   return {
     type: "openEnded",
     message: o.message,
+    maxLength: o.max_length,
   };
 };
 

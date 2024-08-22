@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export type OpenEndedQuestionProps = QuestionProps & {
   initialValue: string | null;
   onChange: (value: string | null) => void;
+  maxLength?: number;
 };
 
 const OpenEndedQuestion = ({
@@ -16,6 +17,7 @@ const OpenEndedQuestion = ({
   onChange,
   initialValue,
   enableNextButton,
+  maxLength = 100,
 }: OpenEndedQuestionProps) => {
   const [value, setValue] = useState<string>(initialValue || "");
 
@@ -36,7 +38,11 @@ const OpenEndedQuestion = ({
         onChangeText={setValue}
         value={value}
         multiline={true}
+        maxLength={maxLength}
       />
+      <Text style={styles.characterCount}>
+        {value.length}/{maxLength}
+      </Text>
     </BaseQuestionLayout>
   );
 };
@@ -49,8 +55,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
-    marginBottom: 20,
     height: 150,
+    marginBottom: 5,
+  },
+  characterCount: {
+    fontSize: 12,
+    color: "#999",
+    marginBottom: 20,
+    alignSelf: "flex-end",
   },
 });
 
