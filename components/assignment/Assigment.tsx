@@ -12,6 +12,7 @@ import {
 import useFetchAssignment from "@/hooks/fetch_assigment";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
+import useAuth from "@/hooks/useAuth";
 
 export type AssignmentProps = {
   assignmentId: number;
@@ -21,12 +22,19 @@ export type AssignmentProps = {
 const Assigment = ({ assignmentId, onClose }: AssignmentProps) => {
   const { assignment, isError, isLoading, fetchAssignment } =
     useFetchAssignment();
+  const { user, isLoading: isUserLoading } = useAuth();
 
   useEffect(() => {
-    fetchAssignment(assignmentId);
-  }, [fetchAssignment, assignmentId]);
+    const f = async () => {
+      if (user == null) return;
+      const token = await user.getIdToken();
+      fetchAssignment(assignmentId, token);
+    };
+    f();
+  }, [fetchAssignment, assignmentId, user]);
 
-  if (isLoading) {
+  if (isLoading || isUserLoading) {
+    console.log("Loading...", isLoading, isUserLoading);
     return <CommonLoadingComponent />;
   }
 

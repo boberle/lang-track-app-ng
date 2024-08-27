@@ -2,17 +2,19 @@ import { useCallback, useState } from "react";
 
 type JsonData = { [key: string]: any };
 
+type FetchDataOptions = {
+  method?: string;
+  jsonData?: JsonData;
+  transformer?: (data: any) => any;
+  token?: string;
+};
+
 type UseFetchReturnType = {
   data: JsonData | null;
   isLoading: boolean;
   isError: boolean;
   statusCode: number | null;
-  fetchData: (
-    url: URL,
-    method?: string,
-    jsonData?: JsonData,
-    transformer?: (data: any) => any,
-  ) => void;
+  fetchData: (url: URL, options: FetchDataOptions) => void;
 };
 
 const useFetch = (defaultIsLoading: boolean = false): UseFetchReturnType => {
@@ -22,38 +24,34 @@ const useFetch = (defaultIsLoading: boolean = false): UseFetchReturnType => {
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
   const fetchData = useCallback(
-    async (
-      url: URL,
-      method: string = "GET",
-      jsonData?: JsonData,
-      transformer?: (data: any) => any,
-    ) => {
+    async (url: URL, options: FetchDataOptions = { method: "GET" }) => {
       setIsError(false);
       setIsLoading(true);
       setStatusCode(null);
 
       const headers: { [key: string]: string } = {};
-      const options: { [key: string]: any } = {
-        method,
+      const fetchOptions: { [key: string]: any } = {
+        method: options.method,
         headers: headers,
       };
 
-      if (jsonData != null) {
-        options.headers = {
-          ...options.headers,
-          "Content-Type": "application/json",
-        };
-        options["body"] = JSON.stringify(jsonData);
+      if (options.token != null) {
+        fetchOptions.headers["Authorization"] = `Bearer ${options.token}`;
+      }
+
+      if (options.jsonData != null) {
+        fetchOptions.headers["Content-Type"] = "application/json";
+        fetchOptions["body"] = JSON.stringify(options.jsonData);
       }
 
       try {
-        const response = await fetch(url.href, options);
+        const response = await fetch(url.href, fetchOptions);
         setStatusCode(response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const json = await response.json();
-        setData(transformer ? transformer(json) : json);
+        setData(options.transformer ? options.transformer(json) : json);
       } catch {
         setIsError(true);
       } finally {

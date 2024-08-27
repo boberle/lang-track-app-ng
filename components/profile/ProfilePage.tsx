@@ -1,15 +1,29 @@
 import { Text, View, StyleSheet, Modal, Pressable } from "react-native";
 import { useState } from "react";
+import { logout } from "@/actions/firebase";
+import useAuth from "@/hooks/useAuth";
+import { Redirect, router } from "expo-router";
+import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 
 const ProfilePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const { user, isLoading: isUserLoading } = useAuth();
+
+  if (isUserLoading) {
+    return <CommonLoadingComponent />;
+  }
+
+  if (user == null) {
+    return <Redirect href={"/"} />;
+  }
+  const emailAddress = user.email;
 
   const handleWantToLogout = () => {
     setModalVisible(true);
   };
 
-  const handleLogoutConfirmed = () => {
-    console.log("User logged out");
+  const handleLogoutConfirmed = async () => {
+    await logout();
     setModalVisible(false);
   };
 
@@ -35,7 +49,7 @@ const ProfilePage = () => {
         </View>
       </Modal>
       <View style={styles.container}>
-        <Text style={styles.message}>You are logged in as TODO.</Text>
+        <Text style={styles.message}>You are logged in as {emailAddress}.</Text>
         <View style={styles.buttonContainer}>
           <Pressable
             style={[styles.button, styles.buttonLogout]}

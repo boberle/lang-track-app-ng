@@ -185,10 +185,10 @@ const useFetchAssignment = () => {
   const [assignment, setAssignment] = useState<AssignmentType | null>(null);
 
   const fetchAssignment = useCallback(
-    async (assignmentId: number) => {
+    async (assignmentId: number, token: string) => {
       setIsError(false);
       const url = buildGetAssignmentURL(assignmentId);
-      fetchData(url);
+      fetchData(url, { token });
     },
     [fetchData],
   );

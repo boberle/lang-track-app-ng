@@ -1,7 +1,7 @@
 import HomePage from "@/components/home/HomePage";
 
 const HomePageRoute = () => {
-  return <HomePage userId={1} />;
+  return <HomePage />;
 };
 
 export default HomePageRoute;

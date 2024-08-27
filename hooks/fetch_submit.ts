@@ -8,9 +8,13 @@ const useSubmitAssignment = () => {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const submitAssignment = useCallback(
-    async (assignmentId: number, answers: AnswerType[]) => {
+    async (assignmentId: number, answers: AnswerType[], token: string) => {
       const url = buildSubmitAssignmentURL(assignmentId);
-      fetchData(url, "PUT", { answers: answers });
+      fetchData(url, {
+        method: "PUT",
+        jsonData: { answers: answers },
+        token: token,
+      });
     },
     [fetchData],
   );

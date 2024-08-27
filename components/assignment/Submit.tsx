@@ -3,6 +3,7 @@ import useSubmitAssignment from "@/hooks/fetch_submit";
 import BaseQuestionLayout from "@/components/assignment/question/BaseQuestionLayout";
 import { ReactElement, useEffect } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
+import useAuth from "@/hooks/useAuth";
 
 export type SubmitProps = {
   message: string;
@@ -23,9 +24,12 @@ const Submit = ({
 }: SubmitProps) => {
   const { submitAssignment, isLoading, isError, isTooLate, isSubmitted } =
     useSubmitAssignment();
+  const { user, isLoading: isUserLoading } = useAuth();
 
-  const handleSubmit = () => {
-    submitAssignment(assignmentId, answers);
+  const handleSubmit = async () => {
+    if (user == null) return;
+    const token = await user.getIdToken();
+    submitAssignment(assignmentId, answers, token);
   };
 
   useEffect(() => {
@@ -38,11 +42,11 @@ const Submit = ({
     <Text style={styles.message}>{message}</Text>
   );
 
-  if (isLoading) {
+  if (isLoading || isUserLoading) {
     messageElement = <CommonLoadingComponent />;
   }
 
-  let nextHandler = handleSubmit;
+  let nextHandler: () => void | Promise<void> = handleSubmit;
   let nextButtonLabel = "Submit";
 
   if (isError) {

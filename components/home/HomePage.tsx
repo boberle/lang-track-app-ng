@@ -6,20 +6,24 @@ import { useEffect } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
+import useAuth from "@/hooks/useAuth";
 
-export type HomePageProps = {
-  userId: number;
-};
-
-const HomePage = ({ userId }: HomePageProps) => {
+const HomePage = () => {
   const { assignmentList, isError, isLoading, fetchAssignmentList } =
     useFetchAssignmentList();
 
-  useEffect(() => {
-    fetchAssignmentList(userId);
-  }, [fetchAssignmentList, userId]);
+  const { user, isLoading: isUserLoading } = useAuth();
 
-  if (isLoading) {
+  useEffect(() => {
+    const f = async () => {
+      if (user == null) return;
+      const token = await user.getIdToken();
+      fetchAssignmentList(token);
+    };
+    f();
+  }, [fetchAssignmentList, user]);
+
+  if (isLoading || isUserLoading) {
     return <CommonLoadingComponent />;
   }
 

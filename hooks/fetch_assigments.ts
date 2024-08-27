@@ -102,10 +102,10 @@ const useFetchAssignmentList = () => {
     useState<AssignmentListType | null>(null);
 
   const fetchAssignmentList = useCallback(
-    async (userId: number) => {
+    async (token: string) => {
       setIsError(false);
-      const url = buildListAssignmentsURL(userId);
-      fetchData(url);
+      const url = buildListAssignmentsURL();
+      fetchData(url, { token });
     },
     [fetchData],
   );
