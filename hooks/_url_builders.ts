@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:8000/api/mobile/v1/";
+const baseURL = "http://192.168.1.18:8000/api/mobile/v1/";
 
 export const buildListAssignmentsURL = (): URL => {
   return new URL(`assignments/`, baseURL);
