@@ -34,6 +34,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "55e39e61-bff3-46a6-8723-b3e882653cf1"
+      }
+    },
+    "owner": "boberle"
   }
 }
