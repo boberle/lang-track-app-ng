@@ -1,11 +1,10 @@
 import {FirebaseApp, initializeApp} from "firebase/app";
 import firebaseConfig from "../const/firebase_config";
 import {Auth, signInWithEmailAndPassword, User} from "@firebase/auth";
-import { getAuth, initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 let _app: FirebaseApp | null = null;
-let _auth: Auth | null = null;
 
 const getFirebaseApp = () => {
     if (!_app) {
@@ -15,12 +14,7 @@ const getFirebaseApp = () => {
 }
 
 export const getFirebaseAuth = () => {
-    if (!_auth) {
-        _auth = initializeAuth(getFirebaseApp(), {
-            persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-        });
-    }
-    return _auth;
+    return getAuth(getFirebaseApp());
 }
 
 
