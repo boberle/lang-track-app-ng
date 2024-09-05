@@ -12,7 +12,7 @@ const AssignmentsRoute = () => {
   return (
     <Assigment
       assignmentId={parseInt(id)}
-      onClose={() => router.navigate("/")}
+      onClose={() => router.replace("/")}
     />
   );
 };
