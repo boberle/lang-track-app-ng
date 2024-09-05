@@ -9,7 +9,7 @@ const Logo = ({ height = 40 }: LogoProps) => {
     <View style={{ height: height }}>
       <View style={styles.flexContainer}>
         <Image
-          source={require("./Logo.svg")}
+          source={require("./Logo.png")}
           style={{ height: "100%", resizeMode: "contain" }}
         />
       </View>
