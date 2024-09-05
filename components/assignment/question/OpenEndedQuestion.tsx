@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
+    textAlignVertical: "top",
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
