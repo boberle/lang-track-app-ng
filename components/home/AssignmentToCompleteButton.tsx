@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 
 export type AssignmentToComplete = {
@@ -32,23 +32,23 @@ const AssignmentToCompleteButton = ({
     return () => clearInterval(intervalId);
   }, []);
 
+  const handlePress = () => {
+    router.replace({
+      pathname: "/assignments/[id]",
+      params: { id: assignmentToComplete.id },
+    });
+  };
+
   return (
     <View style={[styles.container, style]}>
-      <Link
-        href={{
-          pathname: "/assignments/[id]",
-          params: { id: assignmentToComplete.id },
-        }}
-      >
-        <Pressable style={styles.button}>
-          <View style={styles.buttonTextContainer}>
-            <Text style={styles.buttonText}>Survey to answer</Text>
-          </View>
-          <Text style={styles.buttonDate}>
-            Time left: {remainingTime} minutes
-          </Text>
-        </Pressable>
-      </Link>
+      <Pressable style={styles.button} onPress={handlePress}>
+        <View style={styles.buttonTextContainer}>
+          <Text style={styles.buttonText}>Survey to answer</Text>
+        </View>
+        <Text style={styles.buttonDate}>
+          Time left: {remainingTime} minutes
+        </Text>
+      </Pressable>
     </View>
   );
 };
