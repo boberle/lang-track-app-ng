@@ -4,6 +4,8 @@ import { router } from "expo-router";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import { login } from "@/actions/firebase";
+import Background from "@/components/common/Background";
+import { backgroundColor } from "@/const/colors";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -13,8 +15,6 @@ const LoginPage = () => {
   const [showErrorPopup, setShowErrorPopup] = useState<boolean>(false);
 
   const handleLogin = async () => {
-    console.log("Logging in with:", username, password);
-
     setIsError(false);
     setIsLoading(true);
 
@@ -60,21 +60,23 @@ const LoginPage = () => {
   }, [isError]);
 
   return (
-    <View style={styles.container}>
-      <Logo height={75} />
-      <View>
-        <Text style={styles.title}>Welcome to the</Text>
-        <Text style={styles.title}>Lang Track App NG</Text>
-      </View>
+    <Background>
+      <View style={styles.container}>
+        <Logo height={75} />
+        <View>
+          <Text style={styles.title}>Welcome to the</Text>
+          <Text style={styles.title}>Lang Track App NG</Text>
+        </View>
 
-      {isLoading ? (
-        <CommonLoadingComponent />
-      ) : showErrorPopup ? (
-        <ErrorPopup onHide={() => setShowErrorPopup(false)} />
-      ) : (
-        credentialsInput
-      )}
-    </View>
+        {isLoading ? (
+          <CommonLoadingComponent />
+        ) : showErrorPopup ? (
+          <ErrorPopup onHide={() => setShowErrorPopup(false)} />
+        ) : (
+          credentialsInput
+        )}
+      </View>
+    </Background>
   );
 };
 
@@ -93,10 +95,10 @@ const ErrorPopup = ({ onHide }: { onHide: () => void }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "space-between",
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: backgroundColor,
+    height: "100%",
   },
   title: {
     fontSize: 24,
