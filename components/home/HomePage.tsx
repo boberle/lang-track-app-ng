@@ -7,10 +7,12 @@ import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
 import useAuth from "@/hooks/useAuth";
+import useNotificationSubscription from "@/hooks/useNotificationSubscription";
 
 const HomePage = () => {
   const { assignmentList, isError, isLoading, fetchAssignmentList } =
     useFetchAssignmentList();
+  const { notification } = useNotificationSubscription();
 
   const { user, isLoading: isUserLoading } = useAuth();
 
@@ -21,7 +23,7 @@ const HomePage = () => {
       fetchAssignmentList(token);
     };
     f();
-  }, [fetchAssignmentList, user]);
+  }, [fetchAssignmentList, user, notification]);
 
   if (isLoading || isUserLoading) {
     return <CommonLoadingComponent />;
