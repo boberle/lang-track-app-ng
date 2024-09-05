@@ -1,4 +1,4 @@
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet, Linking } from "react-native";
 import { ReactNode } from "react";
 
 const AboutPage = () => {
@@ -23,10 +23,16 @@ const AboutPage = () => {
         your answers. The app will not record any other data, e.g. about your
         location.
       </Paragraph>
-      <Paragraph>
+      <Text style={styles.paragraph}>
         You can find the complete privacy policy{" "}
-        <a href="https://idontexist.net">here (TODO)</a>.
-      </Paragraph>
+        <Text
+          style={styles.link}
+          onPress={() => Linking.openURL("https://idontexist.net")}
+        >
+          here (TODO)
+        </Text>
+        .
+      </Text>
       <Heading>Links</Heading>
       <Paragraph>TODO</Paragraph>
 
@@ -63,6 +69,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
     fontStyle: "italic",
+  },
+  link: {
+    color: "#007bff",
   },
 });
 
