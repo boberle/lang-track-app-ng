@@ -39,22 +39,26 @@ const ProfilePage = () => {
             <Text style={styles.modalText}>
               Are you sure you want to logout?
             </Text>
-            <Pressable
-              style={[styles.button, styles.buttonConfirmed]}
-              onPress={handleLogoutConfirmed}
-            >
-              <Text style={styles.buttonText}>Logout</Text>
-            </Pressable>
+            <View style={styles.modalButtons}>
+              <Pressable
+                style={[styles.button, styles.buttonCancel]}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={[styles.buttonText, styles.buttonCancelText]}>
+                  Stay logged in
+                </Text>
+              </Pressable>
+              <Pressable style={styles.button} onPress={handleLogoutConfirmed}>
+                <Text style={styles.buttonText}>Logout</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
       <View style={styles.container}>
         <Text style={styles.message}>You are logged in as {emailAddress}.</Text>
         <View style={styles.buttonContainer}>
-          <Pressable
-            style={[styles.button, styles.buttonLogout]}
-            onPress={handleWantToLogout}
-          >
+          <Pressable style={styles.button} onPress={handleWantToLogout}>
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
         </View>
@@ -91,7 +95,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: "#f32121",
   },
-  buttonConfirmed: {},
   buttonText: {
     color: "white",
     fontWeight: "bold",
@@ -107,12 +110,20 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "center",
   },
-  buttonLogout: {
-    flex: 1,
-    alignItems: "center",
-  },
   message: {
     marginBottom: 20,
+  },
+  modalButtons: {
+    flexDirection: "row",
+  },
+  buttonCancel: {
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "darkgray",
+    marginRight: 10,
+  },
+  buttonCancelText: {
+    color: "black",
   },
 });
 
