@@ -1,8 +1,7 @@
 import {FirebaseApp, initializeApp} from "firebase/app";
 import firebaseConfig from "../const/firebase_config";
-import {Auth, signInWithEmailAndPassword, User} from "@firebase/auth";
+import {signInWithEmailAndPassword} from "@firebase/auth";
 import { getAuth } from 'firebase/auth';
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 let _app: FirebaseApp | null = null;
 
