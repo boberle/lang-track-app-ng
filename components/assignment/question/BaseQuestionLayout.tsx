@@ -77,7 +77,7 @@ const Icon = ({ type }: { type: IconType }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    flex: 1,
   },
   icon: {
     marginBottom: 10,

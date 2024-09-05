@@ -34,7 +34,6 @@ const Assigment = ({ assignmentId, onClose }: AssignmentProps) => {
   }, [fetchAssignment, assignmentId, user]);
 
   if (isLoading || isUserLoading) {
-    console.log("Loading...", isLoading, isUserLoading);
     return <CommonLoadingComponent />;
   }
 
