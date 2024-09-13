@@ -11,3 +11,7 @@ export const buildGetAssignmentURL = (assignmentId: number): URL => {
 export const buildSubmitAssignmentURL = (assignmentId: number): URL => {
   return new URL(`assignments/${assignmentId}/`, baseURL);
 };
+
+export const buildRegisterDeviceURL = (): URL => {
+  return new URL(`devices/register/`, baseURL);
+};
