@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import Ribbon from "./Ribbon";
 import AssignmentList from "@/components/home/AssignmentList";
 import useFetchAssignmentList from "@/hooks/fetch_assigments";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
@@ -15,6 +15,7 @@ const HomePage = () => {
   const { notification } = useNotificationSubscription();
 
   const { user, isLoading: isUserLoading } = useAuth();
+  const [key, setKey] = useState<number>(0);
 
   useEffect(() => {
     const f = async () => {
@@ -23,14 +24,14 @@ const HomePage = () => {
       fetchAssignmentList(token);
     };
     f();
-  }, [fetchAssignmentList, user, notification]);
+  }, [fetchAssignmentList, user, notification, key]);
 
   if (isLoading || isUserLoading) {
     return <CommonLoadingComponent />;
   }
 
   if (isError) {
-    return <CommonErrorComponent />;
+    return <CommonErrorComponent onRetry={() => setKey((v) => v + 1)} />;
   }
 
   if (
