@@ -1,13 +1,13 @@
 import {FirebaseApp, initializeApp} from "firebase/app";
-import firebaseConfig from "../const/firebase_config";
 import {signInWithEmailAndPassword} from "@firebase/auth";
 import { getAuth } from 'firebase/auth';
+import appConfig from "@/const/lta";
 
 let _app: FirebaseApp | null = null;
 
 const getFirebaseApp = () => {
     if (!_app) {
-        _app = initializeApp(firebaseConfig);
+        _app = initializeApp({apiKey: appConfig.firebaseAPIKey, projectId: appConfig.projectId});
     }
     return _app;
 }

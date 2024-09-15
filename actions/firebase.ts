@@ -1,5 +1,4 @@
 import {FirebaseApp, initializeApp} from "firebase/app";
-import firebaseConfig from "../const/firebase_config";
 import {Auth, connectAuthEmulator, signInWithEmailAndPassword, User} from "@firebase/auth";
 // @ts-ignore
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
@@ -11,7 +10,7 @@ let _auth: Auth | null = null;
 
 const getFirebaseApp = () => {
     if (!_app) {
-        _app = initializeApp({...firebaseConfig, projectId: appConfig.projectId});
+        _app = initializeApp({apiKey: appConfig.firebaseAPIKey, projectId: appConfig.projectId});
     }
     return _app;
 }
