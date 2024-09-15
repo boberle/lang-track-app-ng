@@ -2,11 +2,12 @@ import { Redirect, Stack } from "expo-router";
 import useAuth from "@/hooks/useAuth";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import usePushNotifications from "@/hooks/usePushNotifications";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useRegisterDevice from "@/hooks/fetch_register";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 
 export default function AppLayout() {
+  const [key, setKey] = useState<number>(0);
   const { user, isLoading: isUserLoading } = useAuth();
   const {
     registerDevice,
@@ -26,11 +27,11 @@ export default function AppLayout() {
       await registerDevice(expoPushToken.data, token);
     };
     f();
-  }, [user, expoPushToken]);
+  }, [user, expoPushToken, key]);
 
   useEffect(() => {
     if (user) registerForPushNotifications();
-  }, [user]);
+  }, [user, key]);
 
   if (isUserLoading || isRegisterDeviceLoading) {
     return <CommonLoadingComponent />;
@@ -44,14 +45,14 @@ export default function AppLayout() {
     return <CommonLoadingComponent />;
   }
 
-  if (isRegisterDeviceError) {
+  if (isRegisterDeviceError || !isRegisterDeviceSuccess) {
     return (
-      <CommonErrorComponent message="Failed to register for push notifications." />
+      <CommonErrorComponent
+        message="Failed to register for push notifications."
+        offerToLogout={true}
+        onRetry={() => setKey((p) => p + 1)}
+      />
     );
-  }
-
-  if (!isRegisterDeviceSuccess) {
-    return <CommonErrorComponent message="No success." />;
   }
 
   return (

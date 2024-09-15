@@ -1,15 +1,18 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { logout } from "@/actions/firebase";
 
 export type CommonErrorComponentProps = {
   message?: string;
   onRetry?: () => void;
+  offerToLogout?: boolean;
 };
 
 const CommonErrorComponent = ({
   message,
   onRetry,
+  offerToLogout = false,
 }: CommonErrorComponentProps) => {
   const msg = message || "Something went wrong. Please try again later.";
 
@@ -18,8 +21,20 @@ const CommonErrorComponent = ({
       <Ionicons name="warning" size={48} color="black" style={styles.icon} />
       <Text>{msg}</Text>
       {onRetry && (
-        <View style={styles.button}>
-          <Button title="Retry" onPress={onRetry} />
+        <View style={styles.buttonContainer}>
+          <Pressable style={styles.button} onPress={onRetry}>
+            <Text style={styles.buttonText}>Retry</Text>
+          </Pressable>
+        </View>
+      )}
+      {offerToLogout && (
+        <View style={styles.buttonContainer}>
+          <Pressable
+            style={[styles.button, styles.logoutButton]}
+            onPress={() => logout()}
+          >
+            <Text style={styles.buttonText}>Logout</Text>
+          </Pressable>
         </View>
       )}
     </View>
@@ -37,6 +52,24 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+    borderRadius: 5,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: "steelblue",
+  },
+  logoutButton: {
+    backgroundColor: "#f32121",
+  },
+  notificationButton: {
+    backgroundColor: "steelblue",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    alignItems: "center",
   },
 });
 
