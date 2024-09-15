@@ -1,12 +1,12 @@
 type AssignmentListItemType = {
-  id: number;
+  id: string;
   title: string;
   answered: boolean;
   date: Date;
 };
 
 type PendingAssignmentType = {
-  id: number;
+  id: string;
   expiredAt: Date;
 };
 
@@ -39,7 +39,7 @@ type OpenEndedQuestion = BaseQuestionType & {
 };
 
 type AssignmentType = {
-  id: number;
+  id: string;
   welcomeMessage: string;
   submitMessage: string;
   questions: (

@@ -15,7 +15,7 @@ import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import useAuth from "@/hooks/useAuth";
 
 export type AssignmentProps = {
-  assignmentId: number;
+  assignmentId: string;
   onClose: () => void;
 };
 

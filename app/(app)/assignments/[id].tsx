@@ -9,12 +9,7 @@ const AssignmentsRoute = () => {
     return null;
   }
 
-  return (
-    <Assigment
-      assignmentId={parseInt(id)}
-      onClose={() => router.replace("/")}
-    />
-  );
+  return <Assigment assignmentId={id} onClose={() => router.replace("/")} />;
 };
 
 export default AssignmentsRoute;

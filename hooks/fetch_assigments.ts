@@ -3,14 +3,14 @@ import useFetch from "./_fetch";
 import { buildListAssignmentsURL } from "./_url_builders";
 
 type AssignmentListItemResponse = {
-  id: number;
+  id: string;
   title: string;
   answered: boolean;
   date: string;
 };
 
 type PendingAssignmentResponse = {
-  id: number;
+  id: string;
   expired_at: string;
 };
 
@@ -46,7 +46,7 @@ const isAssignmentListResponse = (o: any): o is AssignmentListResponse => {
         "expired_at" in o.pending_assignment &&
         typeof o.pending_assignment.expired_at === "string" &&
         "id" in o.pending_assignment &&
-        typeof o.pending_assignment.id === "number")
+        typeof o.pending_assignment.id === "string")
     )
   )
     return false;
@@ -56,7 +56,7 @@ const isAssignmentListResponse = (o: any): o is AssignmentListResponse => {
   return o.assignments.every(
     (item: any) =>
       typeof item === "object" &&
-      typeof item.id === "number" &&
+      typeof item.id === "string" &&
       typeof item.title === "string" &&
       typeof item.answered === "boolean" &&
       typeof item.date === "string",

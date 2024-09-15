@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 
 export type AssignmentToComplete = {
-  id: number;
+  id: string;
   expiredAt: Date;
 };
 

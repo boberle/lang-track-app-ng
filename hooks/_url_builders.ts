@@ -4,11 +4,11 @@ export const buildListAssignmentsURL = (): URL => {
   return new URL(`assignments/`, baseURL);
 };
 
-export const buildGetAssignmentURL = (assignmentId: number): URL => {
+export const buildGetAssignmentURL = (assignmentId: string): URL => {
   return new URL(`assignments/${assignmentId}/`, baseURL);
 };
 
-export const buildSubmitAssignmentURL = (assignmentId: number): URL => {
+export const buildSubmitAssignmentURL = (assignmentId: string): URL => {
   return new URL(`assignments/${assignmentId}/`, baseURL);
 };
 

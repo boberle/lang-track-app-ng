@@ -7,7 +7,7 @@ import useAuth from "@/hooks/useAuth";
 
 export type SubmitProps = {
   message: string;
-  assignmentId: number;
+  assignmentId: string;
   answers: AnswerType[];
   onSubmit: () => void;
   onPrevious: () => void;

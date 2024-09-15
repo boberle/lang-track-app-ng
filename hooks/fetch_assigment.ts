@@ -102,7 +102,7 @@ const convertOpenEndedQuestionResponseToQuestion = (
 };
 
 type AssignmentResponse = {
-  id: number;
+  id: string;
   welcome_message: string;
   submit_message: string;
   questions: (
@@ -125,7 +125,7 @@ const isAssignmentResponse = (o: any): o is AssignmentResponse => {
     return false;
 
   if (
-    typeof o.id !== "number" ||
+    typeof o.id !== "string" ||
     typeof o.welcome_message !== "string" ||
     typeof o.submit_message !== "string"
   )
@@ -185,7 +185,7 @@ const useFetchAssignment = () => {
   const [assignment, setAssignment] = useState<AssignmentType | null>(null);
 
   const fetchAssignment = useCallback(
-    async (assignmentId: number, token: string) => {
+    async (assignmentId: string, token: string) => {
       setIsError(false);
       const url = buildGetAssignmentURL(assignmentId);
       fetchData(url, { token });
