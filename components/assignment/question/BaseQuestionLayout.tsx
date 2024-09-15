@@ -1,6 +1,8 @@
 import { View, StyleSheet, Image, ImageSourcePropType } from "react-native";
 import Footer from "@/components/assignment/common/Footer";
 import { ReactNode } from "react";
+import { backgroundColor } from "@/const/colors";
+import Background from "@/components/common/Background";
 
 type IconType = "done" | "single" | "multiple" | "open-ended";
 
@@ -29,21 +31,23 @@ const BaseQuestionLayout = ({
   enableNextButton,
 }: BaseQuestionProps) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.icon}>
-        <Icon type={iconType} />
+    <Background>
+      <View style={styles.container}>
+        <View style={styles.icon}>
+          <Icon type={iconType} />
+        </View>
+        <View style={styles.message}>{children}</View>
+        <View style={styles.footer}>
+          <Footer
+            mainButtonLabel={nextButtonLabel}
+            mainButtonPress={onNext}
+            secondaryButtonLabel={"Previous"}
+            secondaryButtonPress={onPrevious}
+            enableMainButton={enableNextButton}
+          />
+        </View>
       </View>
-      <View style={styles.message}>{children}</View>
-      <View style={styles.footer}>
-        <Footer
-          mainButtonLabel={nextButtonLabel}
-          mainButtonPress={onNext}
-          secondaryButtonLabel={"Previous"}
-          secondaryButtonPress={onPrevious}
-          enableMainButton={enableNextButton}
-        />
-      </View>
-    </View>
+    </Background>
   );
 };
 
@@ -77,7 +81,8 @@ const Icon = ({ type }: { type: IconType }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "100%",
+    backgroundColor: backgroundColor,
   },
   icon: {
     marginBottom: 10,

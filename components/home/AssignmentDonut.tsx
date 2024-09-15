@@ -1,5 +1,9 @@
 import { Text, View, ViewStyle, StyleSheet } from "react-native";
 import Svg, { G, Circle, Text as SvgText, TSpan } from "react-native-svg";
+import {
+  donutSectionBackgroundColor,
+  donutSectionBorderColor,
+} from "@/const/colors";
 
 export type AssignmentDonutProps = {
   style?: ViewStyle;
@@ -115,8 +119,8 @@ const Donut = ({ proportion }: DonutProps) => {
 const styles = StyleSheet.create({
   container: {
     minHeight: 120,
-    backgroundColor: "#f1ece6",
-    borderColor: "#a09b97",
+    backgroundColor: donutSectionBackgroundColor,
+    borderColor: donutSectionBorderColor,
     borderWidth: 1,
     borderRadius: 10,
     margin: 10,

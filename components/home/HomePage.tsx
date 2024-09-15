@@ -8,6 +8,8 @@ import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
 import useAuth from "@/hooks/useAuth";
 import useNotificationSubscription from "@/hooks/useNotificationSubscription";
+import Background from "@/components/common/Background";
+import { backgroundColor } from "@/const/colors";
 
 const HomePage = () => {
   const { assignmentList, isError, isLoading, fetchAssignmentList } =
@@ -57,6 +59,7 @@ const HomePage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: backgroundColor,
   },
 });
 

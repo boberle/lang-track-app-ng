@@ -6,6 +6,7 @@ import { Redirect, router } from "expo-router";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import useTestNotification from "@/hooks/fetch_test_notification";
 import { User } from "@firebase/auth";
+import { backgroundColor } from "@/const/colors";
 
 const ProfilePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +31,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -57,7 +58,7 @@ const ProfilePage = () => {
           </View>
         </View>
       </Modal>
-      <View style={styles.container}>
+      <View style={styles.section}>
         <Text style={styles.message}>You are logged in as {emailAddress}.</Text>
         <View style={styles.buttonContainer}>
           <Pressable style={styles.button} onPress={handleWantToLogout}>
@@ -83,7 +84,7 @@ const TestNotification = ({ user }: { user: User }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.section}>
       <Text style={styles.message}>
         Tap the button to send a test notification:
       </Text>
@@ -144,6 +145,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   container: {
+    backgroundColor: backgroundColor,
+    flex: 1,
+  },
+  section: {
     margin: 20,
   },
   buttonContainer: {

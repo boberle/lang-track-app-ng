@@ -15,7 +15,6 @@ const Background = ({ children }: { children: ReactNode[] | ReactNode }) => {
 
 const styles = StyleSheet.create({
   background: {
-    height: "100%",
     backgroundColor: appBackgroundColor,
   },
 });

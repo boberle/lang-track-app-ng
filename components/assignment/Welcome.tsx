@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import Logo from "@/components/common/Logo";
 import Footer from "@/components/assignment/common/Footer";
+import { backgroundColor } from "@/const/colors";
+import Background from "@/components/common/Background";
 
 export type WelcomeProps = {
   message: string;
@@ -10,30 +12,33 @@ export type WelcomeProps = {
 
 const Welcome = ({ message, onClose, onStart }: WelcomeProps) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.body}>
-        <Text style={styles.heading}>Survey time!</Text>
-        <View style={styles.logo}>
-          <Logo height={30} />
+    <Background>
+      <View style={styles.container}>
+        <View style={styles.body}>
+          <Text style={styles.heading}>Survey time!</Text>
+          <View style={styles.logo}>
+            <Logo height={30} />
+          </View>
+          <Text style={styles.message}>{message}</Text>
         </View>
-        <Text style={styles.message}>{message}</Text>
+        <View style={styles.footer}>
+          <Footer
+            mainButtonLabel={"Start"}
+            mainButtonPress={onStart}
+            secondaryButtonLabel={"Close"}
+            secondaryButtonPress={onClose}
+            enableMainButton={true}
+          />
+        </View>
       </View>
-      <View style={styles.footer}>
-        <Footer
-          mainButtonLabel={"Start"}
-          mainButtonPress={onStart}
-          secondaryButtonLabel={"Close"}
-          secondaryButtonPress={onClose}
-          enableMainButton={true}
-        />
-      </View>
-    </View>
+    </Background>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "100%",
+    backgroundColor: backgroundColor,
   },
   body: {
     marginBottom: "auto",

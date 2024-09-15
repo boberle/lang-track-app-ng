@@ -1,5 +1,6 @@
 import { ScrollView, Text, StyleSheet, Linking } from "react-native";
 import { ReactNode } from "react";
+import { backgroundColor } from "@/const/colors";
 
 const AboutPage = () => {
   return (
@@ -56,6 +57,7 @@ const Version = ({ children }: { children: ReactNode | ReactNode[] }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    backgroundColor: backgroundColor,
   },
   heading: {
     fontSize: 24,

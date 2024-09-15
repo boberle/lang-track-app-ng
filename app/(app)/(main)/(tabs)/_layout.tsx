@@ -5,6 +5,7 @@ import {
   TabBarIconHome,
   TabBarIconProfile,
 } from "@/components/common/TabBarIcon";
+import { tabBarBackgroundColor } from "@/const/colors";
 
 export default function TabLayout() {
   return (
@@ -12,6 +13,7 @@ export default function TabLayout() {
       screenOptions={{
         header: () => <Header />,
         tabBarActiveTintColor: "steelblue",
+        tabBarStyle: { backgroundColor: tabBarBackgroundColor },
       }}
     >
       <Tabs.Screen
