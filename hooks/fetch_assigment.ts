@@ -155,8 +155,8 @@ const convertQuestionResponseToQuestion = (
   }
 };
 
-const convertDAOToAssignment = (dao: any): AssignmentType => {
-  if (!isAssignmentResponse(dao)) {
+const convertDTOToAssignment = (dto: any): AssignmentType => {
+  if (!isAssignmentResponse(dto)) {
     throw new Error("Invalid assignment data");
   }
   try {
@@ -164,18 +164,18 @@ const convertDAOToAssignment = (dao: any): AssignmentType => {
       | SingleChoiceQuestion
       | MultipleChoiceQuestion
       | OpenEndedQuestion
-    )[] = dao.questions.map((question) =>
+    )[] = dto.questions.map((question) =>
       convertQuestionResponseToQuestion(question),
     );
 
     return {
-      id: dao.id,
-      welcomeMessage: dao.welcome_message,
-      submitMessage: dao.submit_message,
+      id: dto.id,
+      welcomeMessage: dto.welcome_message,
+      submitMessage: dto.submit_message,
       questions,
     };
   } catch {
-    throw new Error("Failed to convert DAO to assignment");
+    throw new Error("Failed to convert DTO to assignment");
   }
 };
 
@@ -199,7 +199,7 @@ const useFetchAssignment = () => {
       return;
     }
     try {
-      const convertedData = convertDAOToAssignment(data);
+      const convertedData = convertDTOToAssignment(data);
       setAssignment(convertedData);
     } catch {
       setIsError(true);

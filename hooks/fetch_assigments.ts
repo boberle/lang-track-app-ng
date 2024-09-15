@@ -63,12 +63,12 @@ const isAssignmentListResponse = (o: any): o is AssignmentListResponse => {
   );
 };
 
-const convertDAOToAssignmentList = (dao: any): AssignmentListType => {
-  if (!isAssignmentListResponse(dao)) {
+const convertDTOToAssignmentList = (dto: any): AssignmentListType => {
+  if (!isAssignmentListResponse(dto)) {
     throw new Error("Invalid assignment list data");
   }
   try {
-    const assignments: AssignmentListItemType[] = dao.assignments.map(
+    const assignments: AssignmentListItemType[] = dto.assignments.map(
       (item) => ({
         id: item.id,
         title: item.title,
@@ -78,20 +78,20 @@ const convertDAOToAssignmentList = (dao: any): AssignmentListType => {
     );
 
     let pendingAssignment: PendingAssignmentType | null = null;
-    if (dao.pending_assignment != null) {
+    if (dto.pending_assignment != null) {
       pendingAssignment = {
-        id: dao.pending_assignment.id,
-        expiredAt: new Date(dao.pending_assignment.expired_at),
+        id: dto.pending_assignment.id,
+        expiredAt: new Date(dto.pending_assignment.expired_at),
       };
     }
     return {
       assignments,
-      totalAssignments: dao.total_assignments,
-      answeredAssignments: dao.answered_assignments,
+      totalAssignments: dto.total_assignments,
+      answeredAssignments: dto.answered_assignments,
       pendingAssignment: pendingAssignment,
     };
   } catch {
-    throw new Error("Failed to convert DAO to assignment list");
+    throw new Error("Failed to convert DTO to assignment list");
   }
 };
 
@@ -116,7 +116,7 @@ const useFetchAssignmentList = () => {
       return;
     }
     try {
-      const convertedData = convertDAOToAssignmentList(data);
+      const convertedData = convertDTOToAssignmentList(data);
       setAssignmentList(convertedData);
     } catch {
       setIsError(true);
