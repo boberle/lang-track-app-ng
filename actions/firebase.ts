@@ -1,16 +1,17 @@
 import {FirebaseApp, initializeApp} from "firebase/app";
 import firebaseConfig from "../const/firebase_config";
-import {Auth, signInWithEmailAndPassword, User} from "@firebase/auth";
+import {Auth, connectAuthEmulator, signInWithEmailAndPassword, User} from "@firebase/auth";
 // @ts-ignore
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import appConfig from "@/const/lta";
 
 let _app: FirebaseApp | null = null;
 let _auth: Auth | null = null;
 
 const getFirebaseApp = () => {
     if (!_app) {
-        _app = initializeApp(firebaseConfig);
+        _app = initializeApp({...firebaseConfig, projectId: appConfig.projectId});
     }
     return _app;
 }
@@ -20,6 +21,9 @@ export const getFirebaseAuth = () => {
         _auth = initializeAuth(getFirebaseApp(), {
             persistence: getReactNativePersistence(ReactNativeAsyncStorage)
         });
+        if (appConfig.authEmulatorURL != null) {
+            connectAuthEmulator(_auth, appConfig.authEmulatorURL);
+        }
     }
     return _auth;
 }

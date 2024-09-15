@@ -1,4 +1,6 @@
-const baseURL = "http://192.168.1.18:8000/api/mobile/v1/";
+import appConfig from "@/const/lta";
+
+const baseURL = appConfig.backendURL;
 
 export const buildListAssignmentsURL = (): URL => {
   return new URL(`assignments/`, baseURL);
