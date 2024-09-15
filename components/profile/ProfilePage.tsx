@@ -4,6 +4,8 @@ import { logout } from "@/actions/firebase";
 import useAuth from "@/hooks/useAuth";
 import { Redirect, router } from "expo-router";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
+import useTestNotification from "@/hooks/fetch_test_notification";
+import { User } from "@firebase/auth";
 
 const ProfilePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,6 +65,40 @@ const ProfilePage = () => {
           </Pressable>
         </View>
       </View>
+      <TestNotification user={user} />
+    </View>
+  );
+};
+
+const TestNotification = ({ user }: { user: User }) => {
+  const {
+    sendTestNotification,
+    isLoading: isTestNotificationLoading,
+    isError: isTestNotificationError,
+  } = useTestNotification();
+
+  const handleTestNotification = async () => {
+    const token = await user.getIdToken();
+    await sendTestNotification(token);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.message}>
+        Tap the button to send a test notification:
+      </Text>
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={[styles.button, styles.notificationButton]}
+          onPress={handleTestNotification}
+        >
+          <Text style={styles.buttonText}>Send me a notification</Text>
+        </Pressable>
+        {isTestNotificationLoading && <CommonLoadingComponent />}
+        {isTestNotificationError && (
+          <Text>An error occurred while sending the notification.</Text>
+        )}
+      </View>
     </View>
   );
 };
@@ -94,6 +130,9 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
     backgroundColor: "#f32121",
+  },
+  notificationButton: {
+    backgroundColor: "steelblue",
   },
   buttonText: {
     color: "white",

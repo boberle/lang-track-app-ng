@@ -15,3 +15,7 @@ export const buildSubmitAssignmentURL = (assignmentId: number): URL => {
 export const buildRegisterDeviceURL = (): URL => {
   return new URL(`devices/register/`, baseURL);
 };
+
+export const buildTestNotificationURL = (): URL => {
+  return new URL(`test-notification/`, baseURL);
+};
