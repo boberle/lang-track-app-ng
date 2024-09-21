@@ -18,14 +18,12 @@ const useRegisterDevice = () => {
 
   const registerDevice = useCallback(
     async (deviceToken: string, token: string) => {
-      console.log("FOO");
       const url = buildRegisterDeviceURL();
       const data: DeviceData = {
         token: deviceToken,
         os: Platform.OS,
         version: Platform.Version.toString(),
       };
-      console.log("registerDevice", data);
       fetchData(url, {
         method: "POST",
         jsonData: data,
@@ -36,7 +34,6 @@ const useRegisterDevice = () => {
   );
 
   useEffect(() => {
-    console.log("useEffect registerDevice", statusCode);
     setIsSuccess(statusCode === 200);
   }, [statusCode]);
 

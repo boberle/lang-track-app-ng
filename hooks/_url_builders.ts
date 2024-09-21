@@ -21,3 +21,7 @@ export const buildRegisterDeviceURL = (): URL => {
 export const buildTestNotificationURL = (): URL => {
   return new URL(`test-notification/`, baseURL);
 };
+
+export const buildChangePasswordURL = (): URL => {
+  return new URL(`change-password/`, baseURL);
+};

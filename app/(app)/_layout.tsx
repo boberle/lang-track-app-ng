@@ -5,10 +5,16 @@ import usePushNotifications from "@/hooks/usePushNotifications";
 import { useEffect, useState } from "react";
 import useRegisterDevice from "@/hooks/fetch_register";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
+import useUserHasSetOwnPassword from "@/hooks/useUserHasSetOwnPassword";
 
 export default function AppLayout() {
   const [key, setKey] = useState<number>(0);
   const { user, isLoading: isUserLoading } = useAuth();
+  const {
+    isLoading: isHasSetOwnPasswordLoading,
+    userHasSetOwnPassword,
+    checkUserHasSetOwnPassword,
+  } = useUserHasSetOwnPassword();
   const {
     registerDevice,
     isLoading: isRegisterDeviceLoading,
@@ -22,23 +28,41 @@ export default function AppLayout() {
   useEffect(() => {
     const f = async () => {
       if (!user) return;
+      if (userHasSetOwnPassword) return;
       if (!expoPushToken?.data) return;
+
       const token = await user.getIdToken();
       await registerDevice(expoPushToken.data, token);
     };
     f();
-  }, [user, expoPushToken, key]);
+  }, [user, expoPushToken, key, userHasSetOwnPassword]);
 
   useEffect(() => {
-    if (user) registerForPushNotifications();
-  }, [user, key]);
+    if (user) {
+      checkUserHasSetOwnPassword(user);
+    }
+  }, [user, checkUserHasSetOwnPassword, key]);
 
-  if (isUserLoading || isRegisterDeviceLoading) {
+  useEffect(() => {
+    if (user && userHasSetOwnPassword) {
+      registerForPushNotifications();
+    }
+  }, [user, userHasSetOwnPassword, key]);
+
+  if (isUserLoading || isHasSetOwnPasswordLoading || isRegisterDeviceLoading) {
     return <CommonLoadingComponent />;
   }
 
   if (user == null) {
     return <Redirect href={"/login"} />;
+  }
+
+  if (userHasSetOwnPassword === false) {
+    return <Redirect href={"/change-password"} />;
+  }
+
+  if (isRegisterDeviceLoading) {
+    return <CommonLoadingComponent />;
   }
 
   if (!expoPushToken) {
@@ -59,6 +83,7 @@ export default function AppLayout() {
     <Stack>
       <Stack.Screen name="(main)" options={{ headerShown: false }} />
       <Stack.Screen name="assignments" options={{ headerShown: false }} />
+      <Stack.Screen name="change-password" options={{ headerShown: false }} />
     </Stack>
   );
 }
