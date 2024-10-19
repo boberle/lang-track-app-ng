@@ -28,7 +28,7 @@ export default function AppLayout() {
   useEffect(() => {
     const f = async () => {
       if (!user) return;
-      if (userHasSetOwnPassword) return;
+      if (!userHasSetOwnPassword) return;
       if (!expoPushToken?.data) return;
 
       const token = await user.getIdToken();
@@ -83,7 +83,6 @@ export default function AppLayout() {
     <Stack>
       <Stack.Screen name="(main)" options={{ headerShown: false }} />
       <Stack.Screen name="assignments" options={{ headerShown: false }} />
-      <Stack.Screen name="change-password" options={{ headerShown: false }} />
     </Stack>
   );
 }
