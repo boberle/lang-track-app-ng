@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import {backgroundColor} from "@/const/colors";
+import { backgroundColor } from "@/const/colors";
 
 const NoAssignmentYet = () => {
   return (
