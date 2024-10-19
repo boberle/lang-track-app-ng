@@ -93,7 +93,7 @@ const TestNotification = ({ user }: { user: User }) => {
           style={[styles.button, styles.notificationButton]}
           onPress={handleTestNotification}
         >
-          <Text style={styles.buttonText}>Send me a notification</Text>
+          <Text style={styles.buttonText}>Send me a test notification</Text>
         </Pressable>
         {isTestNotificationLoading && <CommonLoadingComponent />}
         {isTestNotificationError && (
