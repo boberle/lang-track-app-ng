@@ -22,6 +22,10 @@ export const buildTestNotificationURL = (): URL => {
   return new URL(`test-notification/`, baseURL);
 };
 
+export const buildTestSurveyURL = (): URL => {
+  return new URL(`schedule-test-assignment/`, baseURL);
+};
+
 export const buildChangePasswordURL = (): URL => {
   return new URL(`change-password/`, baseURL);
 };

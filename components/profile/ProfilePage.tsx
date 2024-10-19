@@ -7,6 +7,7 @@ import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import useTestNotification from "@/hooks/fetch_test_notification";
 import { User } from "@firebase/auth";
 import { backgroundColor } from "@/const/colors";
+import useTestSurvey from "@/hooks/fetch_test_survey";
 
 const ProfilePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -67,6 +68,7 @@ const ProfilePage = () => {
         </View>
       </View>
       <TestNotification user={user} />
+      <TestSurvey user={user} />
     </View>
   );
 };
@@ -98,6 +100,37 @@ const TestNotification = ({ user }: { user: User }) => {
         {isTestNotificationLoading && <CommonLoadingComponent />}
         {isTestNotificationError && (
           <Text>An error occurred while sending the notification.</Text>
+        )}
+      </View>
+    </View>
+  );
+};
+
+const TestSurvey = ({ user }: { user: User }) => {
+  const {
+    sendTestSurvey,
+    isLoading: isTestSurveyLoading,
+    isError: isTestSurveyError,
+  } = useTestSurvey();
+
+  const handleTestSurvey = async () => {
+    const token = await user.getIdToken();
+    await sendTestSurvey(token);
+  };
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.message}>Tap the button to send a test survey:</Text>
+      <View style={styles.buttonContainer}>
+        <Pressable
+          style={[styles.button, styles.notificationButton]}
+          onPress={handleTestSurvey}
+        >
+          <Text style={styles.buttonText}>Send me a test survey</Text>
+        </Pressable>
+        {isTestSurveyLoading && <CommonLoadingComponent />}
+        {isTestSurveyError && (
+          <Text>An error occurred while sending the survey.</Text>
         )}
       </View>
     </View>
