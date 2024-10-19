@@ -5,38 +5,36 @@ import { backgroundColor } from "@/const/colors";
 const AboutPage = () => {
   return (
     <ScrollView style={styles.container}>
-      <Heading>About the app</Heading>
+      <Heading>À propos de l'application</Heading>
       <Paragraph>
-        We developed the Lang-Track-App to study when, where and how often
-        language learners are in contact with different foreign languages in
-        everyday life. This is crucial to improving our understanding of the
-        challenges of language learning outside of classrooms.
+        Nous avons développé l'application Lang-Track-App pour étudier quand, où
+        et à quelle fréquence les apprenants de langues sont en contact avec
+        différentes langues étrangères dans la vie quotidienne. Cela est crucial
+        pour améliorer notre compréhension des défis de l'apprentissage des
+        langues en dehors des salles de classe.
       </Paragraph>
       <Paragraph>
-        It's important that you answer each survey as soon as possible. If you
-        don't answer a survey, it will automatically expire after 60 minutes.
+        Il est important que vous répondiez à chaque enquête dès que possible.
+        Si vous ne répondez pas à une enquête, elle expirera automatiquement
+        après 60 minutes.
       </Paragraph>
-      <Paragraph>The project is a collaboration between TODO.</Paragraph>
-      <Heading>Data processing and Privacy</Heading>
+      <Heading>Traitement des données et Confidentialité</Heading>
       <Paragraph>
-        In addition to your survey responses, the app will automatically record
-        the date and time when you opened each survey and when you submitted
-        your answers. The app will not record any other data, e.g. about your
-        location.
+        En plus de vos réponses aux enquêtes, l'application enregistrera
+        automatiquement la date et l'heure d'ouverture de chaque enquête et la
+        soumission de vos réponses. L'application n'enregistrera aucune autre
+        donnée, par exemple, concernant votre localisation.
       </Paragraph>
       <Text style={styles.paragraph}>
-        You can find the complete privacy policy{" "}
+        Vous pouvez consulter la politique de confidentialité complète{" "}
         <Text
           style={styles.link}
           onPress={() => Linking.openURL("https://idontexist.net")}
         >
-          here (TODO)
+          ici (TODO)
         </Text>
         .
       </Text>
-      <Heading>Links</Heading>
-      <Paragraph>TODO</Paragraph>
-
       <Version>Version: 1.0.0</Version>
     </ScrollView>
   );

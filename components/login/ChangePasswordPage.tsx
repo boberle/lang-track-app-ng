@@ -41,14 +41,14 @@ const ChangePasswordPage = () => {
         </Text>
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Mot de passe"
           secureTextEntry
           value={password1}
           onChangeText={setPassword1}
         />
         <TextInput
           style={styles.input}
-          placeholder="Type the password again"
+          placeholder="Veuillez retaper votre mot de passe"
           secureTextEntry
           value={password2}
           onChangeText={setPassword2}
@@ -60,7 +60,7 @@ const ChangePasswordPage = () => {
         onPress={handleChangePassword}
         disabled={disabled}
       >
-        <Text style={styles.buttonText}>Change password</Text>
+        <Text style={styles.buttonText}>Modifier le mot de passe</Text>
       </Pressable>
     </>
   );
@@ -80,7 +80,7 @@ const ChangePasswordPage = () => {
       <View style={styles.container}>
         <Logo height={75} />
         <View>
-          <Text style={styles.title}>Welcome to the</Text>
+          <Text style={styles.title}>Bienvenue sur</Text>
           <Text style={styles.title}>Lang Track App NG</Text>
         </View>
 
@@ -100,7 +100,8 @@ const ErrorPopup = ({ onHide }: { onHide: () => void }) => {
   return (
     <View>
       <Text style={styles.errorMessage}>
-        An error occurred while changing your password. Please try again.
+        Une erreur s'est produite lors de la modification du mot de passe.
+        Veuillez réessayer.
       </Text>
       <Pressable style={styles.button} onPress={onHide}>
         <Text style={styles.buttonText}>Retry</Text>

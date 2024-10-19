@@ -41,7 +41,7 @@ const ProfilePage = () => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
-              Are you sure you want to logout?
+              Êtes-vous sûr de vouloir vous déconnecter?
             </Text>
             <View style={styles.modalButtons}>
               <Pressable
@@ -49,21 +49,23 @@ const ProfilePage = () => {
                 onPress={() => setModalVisible(false)}
               >
                 <Text style={[styles.buttonText, styles.buttonCancelText]}>
-                  Stay logged in
+                  Rester connecté
                 </Text>
               </Pressable>
               <Pressable style={styles.button} onPress={handleLogoutConfirmed}>
-                <Text style={styles.buttonText}>Logout</Text>
+                <Text style={styles.buttonText}>Se déconnecter</Text>
               </Pressable>
             </View>
           </View>
         </View>
       </Modal>
       <View style={styles.section}>
-        <Text style={styles.message}>You are logged in as {emailAddress}.</Text>
+        <Text style={styles.message}>
+          Vous êtes connecté en tant que {emailAddress}.
+        </Text>
         <View style={styles.buttonContainer}>
           <Pressable style={styles.button} onPress={handleWantToLogout}>
-            <Text style={styles.buttonText}>Logout</Text>
+            <Text style={styles.buttonText}>Se déconnecter</Text>
           </Pressable>
         </View>
       </View>
@@ -88,18 +90,22 @@ const TestNotification = ({ user }: { user: User }) => {
   return (
     <View style={styles.section}>
       <Text style={styles.message}>
-        Tap the button to send a test notification:
+        Appuyer sur le bouton pour envoyer une notification de test:
       </Text>
       <View style={styles.buttonContainer}>
         <Pressable
           style={[styles.button, styles.notificationButton]}
           onPress={handleTestNotification}
         >
-          <Text style={styles.buttonText}>Send me a test notification</Text>
+          <Text style={styles.buttonText}>
+            Envoyer une notification de test
+          </Text>
         </Pressable>
         {isTestNotificationLoading && <CommonLoadingComponent />}
         {isTestNotificationError && (
-          <Text>An error occurred while sending the notification.</Text>
+          <Text>
+            Une erreur s'est produite lors de l'envoi de la notification
+          </Text>
         )}
       </View>
     </View>
@@ -120,17 +126,19 @@ const TestSurvey = ({ user }: { user: User }) => {
 
   return (
     <View style={styles.section}>
-      <Text style={styles.message}>Tap the button to send a test survey:</Text>
+      <Text style={styles.message}>
+        Appuyer sur le bouton pour envoi un sondage de test:
+      </Text>
       <View style={styles.buttonContainer}>
         <Pressable
           style={[styles.button, styles.notificationButton]}
           onPress={handleTestSurvey}
         >
-          <Text style={styles.buttonText}>Send me a test survey</Text>
+          <Text style={styles.buttonText}>Envoyer un sondage de test</Text>
         </Pressable>
         {isTestSurveyLoading && <CommonLoadingComponent />}
         {isTestSurveyError && (
-          <Text>An error occurred while sending the survey.</Text>
+          <Text>Une erreur s'est produite lors de l'envoi du sondage</Text>
         )}
       </View>
     </View>

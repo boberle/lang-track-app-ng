@@ -14,7 +14,8 @@ const CommonErrorComponent = ({
   onRetry,
   offerToLogout = false,
 }: CommonErrorComponentProps) => {
-  const msg = message || "Something went wrong. Please try again later.";
+  const msg =
+    message || "Une erreur s'est produite. Merci de réessayer plus tard.";
 
   return (
     <View style={styles.container}>

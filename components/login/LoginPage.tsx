@@ -32,7 +32,7 @@ const LoginPage = () => {
     <>
       <View>
         <Text style={styles.message}>
-          Please enter your credentials to log in:
+          Entrez vos identifiants pour vous connecter:
         </Text>
         <TextInput
           style={styles.input}
@@ -42,7 +42,7 @@ const LoginPage = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="Mot de passe"
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -64,7 +64,7 @@ const LoginPage = () => {
       <View style={styles.container}>
         <Logo height={75} />
         <View>
-          <Text style={styles.title}>Welcome to the</Text>
+          <Text style={styles.title}>Bienvenue sur</Text>
           <Text style={styles.title}>Lang Track App NG</Text>
         </View>
 
@@ -84,7 +84,7 @@ const ErrorPopup = ({ onHide }: { onHide: () => void }) => {
   return (
     <View>
       <Text style={styles.errorMessage}>
-        Login failed. Please check your credentials and try again.
+        Erreur lors de la connexion. Veuillez réessayer.
       </Text>
       <Pressable style={styles.button} onPress={onHide}>
         <Text style={styles.buttonText}>Retry</Text>

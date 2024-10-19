@@ -38,11 +38,11 @@ const Message = ({ answeredAssignments, totalAssignments }: MessageProps) => {
   return (
     <View style={styles.message}>
       <SmileyFace proportion={answeredAssignments / totalAssignments} />
-      <Text>You have answered</Text>
+      <Text>Vous avez répondu</Text>
       <Text>
-        {answeredAssignments} of your {totalAssignments}
+        à {answeredAssignments} de vos {totalAssignments}
       </Text>
-      <Text>assigned surveys.</Text>
+      <Text>sondages assignés.</Text>
     </View>
   );
 };

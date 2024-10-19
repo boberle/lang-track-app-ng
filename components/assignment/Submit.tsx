@@ -47,7 +47,7 @@ const Submit = ({
   }
 
   let nextHandler: () => void | Promise<void> = handleSubmit;
-  let nextButtonLabel = "Submit";
+  let nextButtonLabel = "Envoyer";
 
   if (isError) {
     messageElement = (
@@ -55,7 +55,7 @@ const Submit = ({
         An error occurred while submitting your answers. Please try again later.
       </Text>
     );
-    nextButtonLabel = "Retry";
+    nextButtonLabel = "Réessayer";
   }
 
   if (isTooLate) {
@@ -64,7 +64,7 @@ const Submit = ({
         Oops.... This assignment is too late to submit.
       </Text>
     );
-    nextButtonLabel = "Close";
+    nextButtonLabel = "Fermer";
     nextHandler = onSubmit;
   }
 

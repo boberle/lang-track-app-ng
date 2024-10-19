@@ -20,7 +20,7 @@ export default function TabLayout() {
         name="index"
         options={{
           headerShown: true,
-          title: "Home",
+          title: "Accueil",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIconHome focused={focused} color={color} />
           ),
@@ -30,7 +30,7 @@ export default function TabLayout() {
         name="profile"
         options={{
           headerShown: true,
-          title: "Profile",
+          title: "Profil",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIconProfile focused={focused} color={color} />
           ),
@@ -40,7 +40,7 @@ export default function TabLayout() {
         name="about"
         options={{
           headerShown: true,
-          title: "About",
+          title: "À propos",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIconAbout focused={focused} color={color} />
           ),

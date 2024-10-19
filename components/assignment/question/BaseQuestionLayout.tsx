@@ -27,7 +27,7 @@ const BaseQuestionLayout = ({
   iconType,
   onNext,
   onPrevious,
-  nextButtonLabel = "Next",
+  nextButtonLabel = "Suivant",
   enableNextButton,
 }: BaseQuestionProps) => {
   return (
@@ -41,7 +41,7 @@ const BaseQuestionLayout = ({
           <Footer
             mainButtonLabel={nextButtonLabel}
             mainButtonPress={onNext}
-            secondaryButtonLabel={"Previous"}
+            secondaryButtonLabel={"Précédent"}
             secondaryButtonPress={onPrevious}
             enableMainButton={enableNextButton}
           />

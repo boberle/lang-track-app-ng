@@ -97,7 +97,7 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
   } else if (position >= assignment.questions.length) {
     if (!areValidAnswers()) {
       return (
-        <CommonErrorComponent message="An error occurred. Answers are not valid." />
+        <CommonErrorComponent message="Une erreur s'est produite. Les réponses ne sont pas valides." />
       );
     }
     return (

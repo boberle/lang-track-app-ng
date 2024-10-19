@@ -23,9 +23,9 @@ const Welcome = ({ message, onClose, onStart }: WelcomeProps) => {
         </View>
         <View style={styles.footer}>
           <Footer
-            mainButtonLabel={"Start"}
+            mainButtonLabel={"Commencer"}
             mainButtonPress={onStart}
-            secondaryButtonLabel={"Close"}
+            secondaryButtonLabel={"Fermer"}
             secondaryButtonPress={onClose}
             enableMainButton={true}
           />

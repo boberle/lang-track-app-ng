@@ -29,7 +29,7 @@ const Answered = () => {
   return (
     <>
       <Text>
-        <Text style={styles.answered}>&#x25cf;</Text> Answered
+        <Text style={styles.answered}>&#x25cf;</Text> Répondu
       </Text>
     </>
   );
@@ -39,7 +39,7 @@ const UnAnswered = () => {
   return (
     <>
       <Text>
-        <Text style={styles.unanswered}>&#x25cf;</Text> Unanswered
+        <Text style={styles.unanswered}>&#x25cf;</Text> Non répondu
       </Text>
     </>
   );
