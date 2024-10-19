@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
+import {backgroundColor} from "@/const/colors";
 
 const NoAssignmentYet = () => {
   return (
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: backgroundColor,
   },
   text: {
     marginBottom: 20,
