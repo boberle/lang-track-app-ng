@@ -8,7 +8,6 @@ import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
 import useAuth from "@/hooks/useAuth";
 import useNotificationSubscription from "@/hooks/useNotificationSubscription";
-import Background from "@/components/common/Background";
 import { backgroundColor } from "@/const/colors";
 
 const HomePage = () => {
