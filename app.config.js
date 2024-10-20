@@ -1,4 +1,4 @@
-{
+export default {
   "expo": {
     "name": "lang-track-app-ng",
     "slug": "lang-track-app-ng",
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.boberle.langtrackappng",
-      "googleServicesFile": "./android/app/google-services.json"
+      "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./android/app/google-services.json"
     },
     "web": {
       "bundler": "metro",
