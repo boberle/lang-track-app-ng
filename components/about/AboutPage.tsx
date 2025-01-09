@@ -26,12 +26,12 @@ const AboutPage = () => {
         donnée, par exemple, concernant votre localisation.
       </Paragraph>
       <Text style={styles.paragraph}>
-        Vous pouvez consulter la politique de confidentialité complète{" "}
+        Vous pouvez consulter la politique de confidentialité complète sur{" "}
         <Text
           style={styles.link}
-          onPress={() => Linking.openURL("https://idontexist.net")}
+          onPress={() => Linking.openURL("https://langtrackapp.com")}
         >
-          ici (TODO)
+          langtrackapp.com
         </Text>
         .
       </Text>
