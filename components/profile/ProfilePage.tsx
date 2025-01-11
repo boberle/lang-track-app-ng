@@ -1,26 +1,16 @@
 import { Text, View, StyleSheet, Modal, Pressable } from "react-native";
-import { useState } from "react";
-import { logout } from "@/actions/firebase";
-import useAuth from "@/hooks/useAuth";
-import { Redirect, router } from "expo-router";
+import { useState, useContext } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import useTestNotification from "@/hooks/fetch_test_notification";
 import { User } from "@firebase/auth";
 import { backgroundColor } from "@/const/colors";
 import useTestSurvey from "@/hooks/fetch_test_survey";
+import { logout } from "@/actions/auth";
+import AuthContext from "@/store/auth";
 
 const ProfilePage = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { user, isLoading: isUserLoading } = useAuth();
-
-  if (isUserLoading) {
-    return <CommonLoadingComponent />;
-  }
-
-  if (user == null) {
-    return <Redirect href={"/"} />;
-  }
-  const emailAddress = user.email;
+  const ctx = useContext(AuthContext);
 
   const handleWantToLogout = () => {
     setModalVisible(true);
@@ -61,7 +51,7 @@ const ProfilePage = () => {
       </Modal>
       <View style={styles.section}>
         <Text style={styles.message}>
-          Vous êtes connecté en tant que {emailAddress}.
+          Vous êtes connecté en tant que {ctx.user!.email}.
         </Text>
         <View style={styles.buttonContainer}>
           <Pressable style={styles.button} onPress={handleWantToLogout}>
@@ -69,8 +59,8 @@ const ProfilePage = () => {
           </Pressable>
         </View>
       </View>
-      <TestNotification user={user} />
-      <TestSurvey user={user} />
+      <TestNotification user={ctx.user!} />
+      <TestSurvey user={ctx.user!} />
     </View>
   );
 };
