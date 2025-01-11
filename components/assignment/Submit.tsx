@@ -4,11 +4,17 @@ import BaseQuestionLayout from "@/components/assignment/question/BaseQuestionLay
 import { ReactElement, useEffect } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import useAuth from "@/hooks/useAuth";
+import useGetIdToken from "@/hooks/useGetIdToken";
 
 export type SubmitProps = {
   message: string;
   assignmentId: string;
-  answers: AnswerType[];
+  answers: (
+    | SingleChoiceAnswer
+    | MultipleChoiceAnswer
+    | OpenEndedAnswer
+    | null
+  )[];
   onSubmit: () => void;
   onPrevious: () => void;
   enableNextButton: boolean;
@@ -24,11 +30,10 @@ const Submit = ({
 }: SubmitProps) => {
   const { submitAssignment, isLoading, isError, isTooLate, isSubmitted } =
     useSubmitAssignment();
-  const { user, isLoading: isUserLoading } = useAuth();
+  const { getIdToken } = useGetIdToken();
 
   const handleSubmit = async () => {
-    if (user == null) return;
-    const token = await user.getIdToken();
+    const token = await getIdToken();
     submitAssignment(assignmentId, answers, token);
   };
 
@@ -42,8 +47,10 @@ const Submit = ({
     <Text style={styles.message}>{message}</Text>
   );
 
-  if (isLoading || isUserLoading) {
-    messageElement = <CommonLoadingComponent />;
+  if (isLoading) {
+    messageElement = (
+      <CommonLoadingComponent message="Sending the answers..." />
+    );
   }
 
   let nextHandler: () => void | Promise<void> = handleSubmit;

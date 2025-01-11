@@ -15,7 +15,9 @@ const Welcome = ({ message, onClose, onStart }: WelcomeProps) => {
     <Background>
       <View style={styles.container}>
         <View style={styles.body}>
-          <Text style={styles.heading}>Survey time!</Text>
+          <Text style={styles.heading}>
+            Bienvenue à cette enquête sur Lang Track App!
+          </Text>
           <View style={styles.logo}>
             <Logo height={30} />
           </View>

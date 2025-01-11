@@ -21,21 +21,25 @@ type AnswerType = string | number | number[];
 
 type BaseQuestionType = {
   message: string;
+  conditions: { [key: number]: null };
 };
 
 type SingleChoiceQuestion = BaseQuestionType & {
   type: "singleChoice";
   choices: string[];
+  lastIsSpecify: boolean;
 };
 
 type MultipleChoiceQuestion = BaseQuestionType & {
   type: "multipleChoice";
   choices: string[];
+  lastIsSpecify: boolean;
 };
 
 type OpenEndedQuestion = BaseQuestionType & {
   type: "openEnded";
   maxLength?: number;
+  optional: boolean;
 };
 
 type AssignmentType = {
@@ -47,6 +51,24 @@ type AssignmentType = {
     | MultipleChoiceQuestion
     | OpenEndedQuestion
   )[];
+  expiredAt: Date;
+};
+
+type SingleChoiceAnswer = {
+  type: "singleChoice";
+  selectedIndex: number;
+  specify: string | null;
+};
+
+type MultipleChoiceAnswer = {
+  type: "multipleChoice";
+  selectedIndices: number[];
+  specify: string | null;
+};
+
+type OpenEndedAnswer = {
+  type: "openEnded";
+  value: string;
 };
 
 type NullExpoPushToken = {

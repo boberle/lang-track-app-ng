@@ -5,9 +5,10 @@ import BaseQuestionLayout, {
 import { useEffect, useState } from "react";
 
 export type OpenEndedQuestionProps = QuestionProps & {
-  initialValue: string | null;
-  onChange: (value: string | null) => void;
+  initialValue: OpenEndedAnswer | null;
+  onChange: (value: OpenEndedAnswer | null) => void;
   maxLength?: number;
+  optional: boolean;
 };
 
 const OpenEndedQuestion = ({
@@ -18,11 +19,19 @@ const OpenEndedQuestion = ({
   initialValue,
   enableNextButton,
   maxLength = 100,
+  optional,
 }: OpenEndedQuestionProps) => {
-  const [value, setValue] = useState<string>(initialValue || "");
+  const [value, setValue] = useState<string>(initialValue?.value ?? "");
 
   useEffect(() => {
-    onChange(value.length === 0 ? null : value);
+    let answer: OpenEndedAnswer | null;
+    const v = value.trim();
+    if (!optional && v.length === 0) {
+      answer = null;
+    } else {
+      answer = { type: "openEnded", value: v };
+    }
+    onChange(answer);
   }, [value]);
 
   return (

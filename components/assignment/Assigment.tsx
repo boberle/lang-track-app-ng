@@ -12,7 +12,7 @@ import {
 import useFetchAssignment from "@/hooks/fetch_assigment";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
-import useAuth from "@/hooks/useAuth";
+import useGetIdToken from "@/hooks/useGetIdToken";
 
 export type AssignmentProps = {
   assignmentId: string;
@@ -22,26 +22,29 @@ export type AssignmentProps = {
 const Assigment = ({ assignmentId, onClose }: AssignmentProps) => {
   const { assignment, isError, isLoading, fetchAssignment } =
     useFetchAssignment();
-  const { user, isLoading: isUserLoading } = useAuth();
+  const { getIdToken } = useGetIdToken();
 
   useEffect(() => {
     const f = async () => {
-      if (user == null) return;
-      const token = await user.getIdToken();
+      const token = await getIdToken();
       fetchAssignment(assignmentId, token);
     };
     f();
-  }, [fetchAssignment, assignmentId, user]);
+  }, [fetchAssignment, assignmentId]);
 
-  if (isLoading || isUserLoading) {
-    return <CommonLoadingComponent />;
+  if (isLoading) {
+    return <CommonLoadingComponent message="Loading assignment..." />;
   }
 
   if (isError || assignment == null) {
-    return <CommonErrorComponent />;
+    return <CommonErrorComponent message="Unable to load the assignment." />;
   }
 
-  return <_Assigment assignment={assignment} onClose={onClose} />;
+  if (assignment.expiredAt < new Date()) {
+    return <CommonErrorComponent message="This assignment has expired." />;
+  }
+
+  return <Assigment_ assignment={assignment} onClose={onClose} />;
 };
 
 export type _AssignmentProps = {
@@ -49,21 +52,57 @@ export type _AssignmentProps = {
   onClose: () => void;
 };
 
-const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
-  const [position, setPosition] = useState<number | null>(null);
-  const [answers, setAnswers] = useState<(AnswerType | null)[]>(() =>
-    Array(assignment.questions.length).fill(null),
-  );
+const Assigment_ = ({ assignment, onClose }: _AssignmentProps) => {
+  const [answers, setAnswers] = useState<
+    (SingleChoiceAnswer | MultipleChoiceAnswer | OpenEndedAnswer | null)[]
+  >(() => Array(assignment.questions.length).fill(null));
+  const [history, setHistory] = useState<(number | null)[]>([null]);
 
   const handleNext = () => {
-    setPosition((v) => (v == null ? null : v + 1));
+    setHistory((prevHistory) => {
+      const getNextPosition = () => {
+        const v = prevHistory[prevHistory.length - 1];
+        if (v == null) return null;
+        const answer = answers[v];
+        if (answer == null) return v;
+
+        const question = assignment.questions[v];
+
+        const getNextPositionFromConditions = (index: number) => {
+          if (question.conditions[index] == null) {
+            return answers.length;
+          } else {
+            return question.conditions[index];
+          }
+        };
+
+        if (answer.type === "singleChoice") {
+          if (answer.selectedIndex in question.conditions) {
+            return getNextPositionFromConditions(answer.selectedIndex);
+          }
+        } else if (answer.type === "multipleChoice") {
+          for (const index of answer.selectedIndices) {
+            if (index in question.conditions) {
+              return getNextPositionFromConditions(index);
+            }
+          }
+        }
+
+        return v + 1;
+      };
+      const nextPosition = getNextPosition();
+      return [...prevHistory, nextPosition];
+    });
   };
 
   const handlePrevious = () => {
-    setPosition((v) => (v == null || v === 0 ? null : v - 1));
+    setHistory((prevHistory) => prevHistory.slice(0, -1));
   };
 
-  const handleChange = (answer: AnswerType | null) => {
+  const handleChange = (
+    answer: SingleChoiceAnswer | MultipleChoiceAnswer | OpenEndedAnswer | null,
+  ) => {
+    const position = history[history.length - 1];
     if (position == null) return;
     setAnswers((prev) => {
       const newAnswers = [...prev];
@@ -72,7 +111,8 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
     });
   };
 
-  const isValidAnswer = (index?: number): boolean => {
+  const isAnswerValid = (index?: number): boolean => {
+    const position = history[history.length - 1];
     if (position == null) {
       return true;
     }
@@ -82,32 +122,32 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
     return answers[index] != null;
   };
 
-  const areValidAnswers = () => {
-    return answers.every((answer) => answer != null);
-  };
+  const position = history[history.length - 1];
 
   if (position == null) {
     return (
       <Welcome
         message={assignment.welcomeMessage}
         onClose={onClose}
-        onStart={() => setPosition(0)}
+        onStart={() => setHistory([null, 0])}
       />
     );
   } else if (position >= assignment.questions.length) {
-    if (!areValidAnswers()) {
-      return (
-        <CommonErrorComponent message="Une erreur s'est produite. Les réponses ne sont pas valides." />
-      );
-    }
     return (
       <Submit
         message={assignment.submitMessage}
         assignmentId={assignment.id}
-        answers={answers as AnswerType[]}
+        answers={
+          answers as (
+            | SingleChoiceAnswer
+            | MultipleChoiceAnswer
+            | OpenEndedAnswer
+            | null
+          )[]
+        }
         onSubmit={onClose}
         onPrevious={handlePrevious}
-        enableNextButton={areValidAnswers()}
+        enableNextButton={true}
       />
     );
   } else {
@@ -121,8 +161,9 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
           onNext={handleNext}
           onPrevious={handlePrevious}
           onChange={handleChange}
-          enableNextButton={isValidAnswer()}
-          initialValue={answers[position] as number | null}
+          enableNextButton={isAnswerValid()}
+          initialValue={answers[position] as SingleChoiceAnswer | null}
+          lastIsSpecify={question.lastIsSpecify}
         />
       );
     } else if (isMultipleChoiceQuestion(question)) {
@@ -134,8 +175,9 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
           onNext={handleNext}
           onPrevious={handlePrevious}
           onChange={handleChange}
-          enableNextButton={isValidAnswer()}
-          initialValues={answers[position] as number[] | null}
+          enableNextButton={isAnswerValid()}
+          initialValues={answers[position] as MultipleChoiceAnswer | null}
+          lastIsSpecify={question.lastIsSpecify}
         />
       );
     } else if (isOpenEndedQuestion(question)) {
@@ -143,12 +185,13 @@ const _Assigment = ({ assignment, onClose }: _AssignmentProps) => {
         <OpenEndedQuestion
           key={position}
           message={question.message}
-          initialValue={answers[position] as string | null}
+          initialValue={answers[position] as OpenEndedAnswer | null}
           onNext={handleNext}
           onPrevious={handlePrevious}
           onChange={handleChange}
-          enableNextButton={isValidAnswer()}
+          enableNextButton={isAnswerValid()}
           maxLength={question.maxLength}
+          optional={question.optional}
         />
       );
     } else {
