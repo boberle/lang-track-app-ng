@@ -39,15 +39,18 @@ const AssignmentToCompleteButton = ({
     });
   };
 
+  const remainingTimeString =
+    remainingTime >= 60
+      ? `${Math.floor(remainingTime / 60)} hour(s)`
+      : `${remainingTime} minute(s)`;
+
   return (
     <View style={[styles.container, style]}>
       <Pressable style={styles.button} onPress={handlePress}>
         <View style={styles.buttonTextContainer}>
           <Text style={styles.buttonText}>Survey to answer</Text>
         </View>
-        <Text style={styles.buttonDate}>
-          Time left: {remainingTime} minutes
-        </Text>
+        <Text style={styles.buttonDate}>Time left: {remainingTimeString}</Text>
       </Pressable>
     </View>
   );
