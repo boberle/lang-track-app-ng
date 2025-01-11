@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 type JsonData = { [key: string]: any };
 
-type FetchDataOptions = {
+export type FetchDataOptions = {
   method?: string;
   jsonData?: JsonData;
   transformer?: (data: any) => any;
@@ -17,9 +17,9 @@ type UseFetchReturnType = {
   fetchData: (url: URL, options: FetchDataOptions) => void;
 };
 
-const useFetch = (defaultIsLoading: boolean = false): UseFetchReturnType => {
+const useFetch = (): UseFetchReturnType => {
   const [data, setData] = useState<JsonData | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(defaultIsLoading);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [statusCode, setStatusCode] = useState<number | null>(null);
 
