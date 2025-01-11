@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { logout } from "@/actions/firebase";
+
+import { logout } from "@/actions/auth";
 
 export type CommonErrorComponentProps = {
   message?: string;
