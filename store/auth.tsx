@@ -1,4 +1,4 @@
-import React, {Context, ReactNode, useEffect} from "react";
+import React, {Context, ReactNode, useEffect, useState} from "react";
 import useAuth from "@/hooks/useAuth";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import { Redirect } from "expo-router";
@@ -28,18 +28,20 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     isError: isRegisterDeviceError,
     registerDevice,
   } = useRegisterDevice();
+  const [key, setKey] = useState<number>(0);
+
 
   useEffect(() => {
     if (user) {
       checkUserHasSetOwnPassword(user);
     }
-  }, [user, checkUserHasSetOwnPassword]);
+  }, [user, checkUserHasSetOwnPassword, key]);
 
   useEffect(() => {
     if (user && userHasSetOwnPassword) {
       registerForExpoPushNotifications();
     }
-  }, [user, userHasSetOwnPassword]);
+  }, [user, userHasSetOwnPassword, key]);
 
   useEffect(() => {
     const f = async () => {
@@ -49,14 +51,18 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
       }
     };
     f();
-  }, [user, userHasSetOwnPassword, expoPushToken]);
+  }, [user, userHasSetOwnPassword, expoPushToken, key]);
+
+  const handleRetry = () => {
+    setKey(p => p + 1);
+  }
 
   if (isRegisterForExpoPushNotificationError) {
-    return <CommonErrorComponent message="Failed to get push notification token." />;
+    return <Error message="Failed to get push notification token." retry={handleRetry} />;
   }
 
   if (isRegisterDeviceError) {
-    return <CommonErrorComponent message="Failed to register device for push notifications." />;
+    return <Error message="Failed to register device for push notifications." retry={handleRetry} />;
   }
 
   if (isUserLoading) {
@@ -80,7 +86,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   if (deviceIsRegistered === false) {
-    return <CommonErrorComponent message="Failed to register device for push notifications." />;
+    return <Error message="Failed to register device for push notifications." retry={handleRetry} />;
   }
 
   const defaultContext = {
@@ -93,5 +99,17 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
+
+
+const Error = ({message, retry}: {message:string, retry: () => void}) => {
+  return (
+    <CommonErrorComponent
+      message={message}
+      offerToLogout={true}
+      onRetry={retry}
+    />
+  )
+}
+
 
 export default AuthContext;
