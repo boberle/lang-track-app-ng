@@ -43,6 +43,7 @@ export default {
         "projectId": "55e39e61-bff3-46a6-8723-b3e882653cf1"
       }
     },
-    "owner": "boberle"
+    "owner": "boberle",
+    "newArchEnabled": true
   }
 }
