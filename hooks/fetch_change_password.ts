@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import useFetch from "./_fetch";
-import {
-  buildChangePasswordURL,
-  buildSubmitAssignmentURL,
-} from "./_url_builders";
+import { buildChangePasswordURL } from "./_url_builders";
 
 const useChangePassword = () => {
   const { isLoading, isError, statusCode, fetchData } = useFetch();

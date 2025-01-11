@@ -2,43 +2,60 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
-import { logout } from "@/actions/firebase";
 import Background from "@/components/common/Background";
 import { backgroundColor } from "@/const/colors";
 import useAuth from "@/hooks/useAuth";
 import useChangePassword from "@/hooks/fetch_change_password";
 import { router } from "expo-router";
+import { logout } from "@/actions/auth";
 
 const ChangePasswordPage = () => {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
   const [showErrorPopup, setShowErrorPopup] = useState<boolean>(false);
   const { user, isLoading: isUserLoading } = useAuth();
-  const {
-    isLoading: isChangePasswordLoading,
-    isError: isChangePasswordError,
-    isSuccess: isChangePasswordSuccess,
-    changePassword,
-  } = useChangePassword();
+  const { isLoading, isError, isSuccess, changePassword } = useChangePassword();
 
-  const handleChangePassword = async () => {
-    if (user == null) return;
+  const isCompliant = (password1: string, password2: string) => {
     if (password1 === "" || password2 === "") return;
     if (password1 !== password2) return;
 
-    const token = await user.getIdToken();
-    await changePassword(password1, token);
-    router.replace("/");
+    const password = password1;
+    if (!/[a-z]/.test(password)) return false;
+    if (!/[A-Z]/.test(password)) return false;
+    if (!/\d/.test(password)) return false;
+    if (!/[@#$%^&+=!]/.test(password)) return false;
+    if (password.length < 8) return false;
+
+    return true;
   };
 
-  const disabled = password1 === "" || password1 !== password2;
+  const handleChangePassword = async () => {
+    if (user == null) return;
+    if (!isCompliant(password1, password2)) return;
+
+    const token = await user.getIdToken();
+    await changePassword(password1, token);
+  };
+
+  const disabled = !isCompliant(password1, password2);
 
   const credentialsInput = (
     <>
       <View>
-        <Text style={styles.message}>
-          Before you continue, please change your password:
-        </Text>
+        <View style={styles.message}>
+          <Text>
+            Avant de continuer, veuillez modifier votre mot de passe. Il doit
+            contenir:
+          </Text>
+          <Text style={styles.policyPoint}>- au moins 8 caractères,</Text>
+          <Text style={styles.policyPoint}>- au moins une minuscule</Text>
+          <Text style={styles.policyPoint}>- au moins une majuscule</Text>
+          <Text style={styles.policyPoint}>- au moins un chiffre</Text>
+          <Text style={styles.policyPoint}>
+            - au moins un symbole (@#$%^&+=!)
+          </Text>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Mot de passe"
@@ -66,14 +83,15 @@ const ChangePasswordPage = () => {
   );
 
   useEffect(() => {
-    setShowErrorPopup(isChangePasswordError);
-  }, [isChangePasswordError]);
+    setShowErrorPopup(isError);
+  }, [isError]);
 
   useEffect(() => {
-    if (isChangePasswordSuccess) {
+    if (isSuccess) {
       logout();
+      router.replace("/");
     }
-  }, [isChangePasswordSuccess]);
+  }, [isSuccess]);
 
   return (
     <Background>
@@ -84,8 +102,10 @@ const ChangePasswordPage = () => {
           <Text style={styles.title}>Lang Track App NG</Text>
         </View>
 
-        {isChangePasswordLoading || isUserLoading ? (
-          <CommonLoadingComponent />
+        {isLoading ? (
+          <CommonLoadingComponent message="Setting up new password..." />
+        ) : isUserLoading ? (
+          <CommonLoadingComponent message="Loading user information..." />
         ) : showErrorPopup ? (
           <ErrorPopup onHide={() => setShowErrorPopup(false)} />
         ) : (
@@ -149,6 +169,9 @@ const styles = StyleSheet.create({
   },
   message: {
     marginBottom: 20,
+  },
+  policyPoint: {
+    paddingLeft: 5,
   },
   errorMessage: {
     marginBottom: 20,
