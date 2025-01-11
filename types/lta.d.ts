@@ -48,3 +48,8 @@ type AssignmentType = {
     | OpenEndedQuestion
   )[];
 };
+
+type NullExpoPushToken = {
+  type: "null";
+  data: "__null__";
+};
