@@ -3,9 +3,9 @@ import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
 import { router } from "expo-router";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
-import { login } from "@/actions/firebase";
 import Background from "@/components/common/Background";
 import { backgroundColor } from "@/const/colors";
+import { login } from "@/actions/auth";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
