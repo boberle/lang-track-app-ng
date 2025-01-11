@@ -6,29 +6,28 @@ import { useEffect, useState } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import NoAssignmentYet from "@/components/home/NoAssignmentYet";
-import useAuth from "@/hooks/useAuth";
 import useNotificationSubscription from "@/hooks/useNotificationSubscription";
 import { backgroundColor } from "@/const/colors";
+import useGetIdToken from "@/hooks/useGetIdToken";
 
 const HomePage = () => {
   const { assignmentList, isError, isLoading, fetchAssignmentList } =
     useFetchAssignmentList();
   const { notification } = useNotificationSubscription();
+  const { getIdToken } = useGetIdToken();
 
-  const { user, isLoading: isUserLoading } = useAuth();
   const [key, setKey] = useState<number>(0);
 
   useEffect(() => {
     const f = async () => {
-      if (user == null) return;
-      const token = await user.getIdToken();
+      const token = await getIdToken();
       fetchAssignmentList(token);
     };
     f();
-  }, [fetchAssignmentList, user, notification, key]);
+  }, [fetchAssignmentList, notification, key]);
 
-  if (isLoading || isUserLoading) {
-    return <CommonLoadingComponent />;
+  if (isLoading) {
+    return <CommonLoadingComponent message="Loading assignment list..." />;
   }
 
   if (isError) {
@@ -37,7 +36,7 @@ const HomePage = () => {
 
   if (
     assignmentList == null ||
-    !assignmentList.assignments.length ||
+    assignmentList.assignments.length === 0 ||
     assignmentList.totalAssignments === 0
   ) {
     return <NoAssignmentYet />;
