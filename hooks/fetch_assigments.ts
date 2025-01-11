@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import useFetch from "./_fetch";
+import { useCallback } from "react";
+import useFetchItem from "./_fetch_item";
 import { buildListAssignmentsURL } from "./_url_builders";
 
 type AssignmentListItemResponse = {
@@ -96,39 +96,19 @@ const convertDTOToAssignmentList = (dto: any): AssignmentListType => {
 };
 
 const useFetchAssignmentList = () => {
-  const { data, isLoading, isError: isFetchError, fetchData } = useFetch(true);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [assignmentList, setAssignmentList] =
-    useState<AssignmentListType | null>(null);
+  const { item, isLoading, isError, fetchItem } =
+    useFetchItem<AssignmentListType>(convertDTOToAssignmentList);
 
   const fetchAssignmentList = useCallback(
-    async (token: string) => {
-      setIsError(false);
+    (token: string) => {
       const url = buildListAssignmentsURL();
-      fetchData(url, { token });
+      fetchItem(url, { token });
     },
-    [fetchData],
+    [fetchItem],
   );
 
-  useEffect(() => {
-    if (data === null) {
-      setAssignmentList(null);
-      return;
-    }
-    try {
-      const convertedData = convertDTOToAssignmentList(data);
-      setAssignmentList(convertedData);
-    } catch {
-      setIsError(true);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    setIsError((prev) => prev || isFetchError);
-  }, [isFetchError]);
-
   return {
-    assignmentList,
+    assignmentList: item,
     fetchAssignmentList,
     isLoading,
     isError,
