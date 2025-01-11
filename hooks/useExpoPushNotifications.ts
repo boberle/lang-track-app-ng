@@ -7,11 +7,12 @@ import Constants from "expo-constants";
 import { Platform } from "react-native";
 
 export type UsePushNotificationsReturnType = {
-  expoPushToken?: Notifications.ExpoPushToken;
+  expoPushToken?: Notifications.ExpoPushToken | NullExpoPushToken;
   registerForPushNotifications: () => void;
 };
 
 const usePushNotifications = (): UsePushNotificationsReturnType => {
+  console.log("BAAAAAAAAAD");
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: true,
