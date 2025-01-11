@@ -6,9 +6,10 @@ import useUserHasSetOwnPassword from "@/hooks/useUserHasSetOwnPassword";
 import useRegisterDevice from "@/hooks/fetch_register";
 import useExpoPushNotifications from "@/hooks/useExpoPushNotifications";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
+import {User} from "@firebase/auth";
 
 type contextType = {
-  user: null | string;
+  user: null | User;
 };
 
 const AuthContext: Context<contextType> = React.createContext<contextType>({
@@ -90,7 +91,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const defaultContext = {
-    user: user.email,
+    user: user,
   };
 
   return (
