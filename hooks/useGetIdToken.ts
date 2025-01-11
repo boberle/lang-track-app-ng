@@ -8,6 +8,7 @@ const useGetIdToken = () => {
 
   const getIdToken = useCallback(async () => {
     if (ctx.user === null) {
+      console.log("User not authenticated, redirecting to login");
       router.replace("/login");
       throw new Error("User not authenticated");
     }
