@@ -8,7 +8,7 @@ const useAuth = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    return getFirebaseAuth().onAuthStateChanged(user => {
+    return getFirebaseAuth().onAuthStateChanged((user) => {
       setUser(user);
       setIsLoading(false);
     });
