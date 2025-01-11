@@ -1,8 +1,9 @@
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
 
-const CommonLoadingComponent = () => {
+const CommonLoadingComponent = ({ message }: { message?: string }) => {
   return (
     <View style={styles.container}>
+      {message && <Text>{message}</Text>}
       <ActivityIndicator size="large" />
     </View>
   );
