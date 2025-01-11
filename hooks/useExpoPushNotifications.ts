@@ -6,13 +6,13 @@ import Constants from "expo-constants";
 
 import { Platform } from "react-native";
 
-export type UsePushNotificationsReturnType = {
-  expoPushToken?: Notifications.ExpoPushToken | NullExpoPushToken;
-  registerForPushNotifications: () => void;
+export type UseExpoPushNotificationsReturnType = {
+  expoPushToken: Notifications.ExpoPushToken | NullExpoPushToken | null;
+  isError: boolean;
+  registerForExpoPushNotifications: () => void;
 };
 
-const usePushNotifications = (): UsePushNotificationsReturnType => {
-  console.log("BAAAAAAAAAD");
+const useExpoPushNotifications = (): UseExpoPushNotificationsReturnType => {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldPlaySound: true,
@@ -21,11 +21,13 @@ const usePushNotifications = (): UsePushNotificationsReturnType => {
     }),
   });
 
-  const [expoPushToken, setExpoPushToken] = useState<
-    Notifications.ExpoPushToken | undefined
-  >();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [expoPushToken, setExpoPushToken] =
+    useState<Notifications.ExpoPushToken | null>(null);
 
-  const registerForPushNotifications = useCallback(async () => {
+  const registerForExpoPushNotifications = useCallback(async () => {
+    setIsError(false);
+
     let token;
     if (Device.isDevice) {
       const { status: existingStatus } =
@@ -37,7 +39,8 @@ const usePushNotifications = (): UsePushNotificationsReturnType => {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        alert("Failed to get push token for push notification");
+        console.log("Failed to get push token for push notification");
+        setIsError(true);
         return;
       }
 
@@ -45,7 +48,9 @@ const usePushNotifications = (): UsePushNotificationsReturnType => {
         projectId: Constants.expoConfig?.extra?.eas.projectId,
       });
     } else {
-      alert("Must be using a physical device for Push notifications");
+      console.log("Must be using a physical device for Push notifications");
+      setIsError(true);
+      return;
     }
 
     if (Platform.OS === "android") {
@@ -57,13 +62,15 @@ const usePushNotifications = (): UsePushNotificationsReturnType => {
       });
     }
 
+    setIsError(false);
     setExpoPushToken(token);
   }, []);
 
   return {
     expoPushToken,
-    registerForPushNotifications,
+    isError,
+    registerForExpoPushNotifications,
   };
 };
 
-export default usePushNotifications;
+export default useExpoPushNotifications;
