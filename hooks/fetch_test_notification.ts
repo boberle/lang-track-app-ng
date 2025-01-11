@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import useFetch from "./_fetch";
-import {
-  buildGetAssignmentURL,
-  buildTestNotificationURL,
-} from "./_url_builders";
+import { buildTestNotificationURL } from "./_url_builders";
 
 const useTestNotification = () => {
-  const { data, isLoading, isError, fetchData } = useFetch(false);
+  const { isLoading, isError, fetchData } = useFetch();
 
   const sendTestNotification = useCallback(
     async (token: string) => {

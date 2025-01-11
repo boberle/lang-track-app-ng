@@ -66,11 +66,7 @@ const ProfilePage = () => {
 };
 
 const TestNotification = ({ user }: { user: User }) => {
-  const {
-    sendTestNotification,
-    isLoading: isTestNotificationLoading,
-    isError: isTestNotificationError,
-  } = useTestNotification();
+  const { sendTestNotification, isLoading, isError } = useTestNotification();
 
   const handleTestNotification = async () => {
     const token = await user.getIdToken();
@@ -91,8 +87,10 @@ const TestNotification = ({ user }: { user: User }) => {
             Envoyer une notification de test
           </Text>
         </Pressable>
-        {isTestNotificationLoading && <CommonLoadingComponent />}
-        {isTestNotificationError && (
+        {isLoading && (
+          <CommonLoadingComponent message="Sending notification..." />
+        )}
+        {isError && (
           <Text>
             Une erreur s'est produite lors de l'envoi de la notification
           </Text>
