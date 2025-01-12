@@ -3,7 +3,6 @@ import useSubmitAssignment from "@/hooks/fetch_submit";
 import BaseQuestionLayout from "@/components/assignment/question/BaseQuestionLayout";
 import { ReactElement, useEffect } from "react";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
-import useAuth from "@/hooks/useAuth";
 import useGetIdToken from "@/hooks/useGetIdToken";
 
 export type SubmitProps = {
