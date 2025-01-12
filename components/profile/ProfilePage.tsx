@@ -4,7 +4,6 @@ import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import useTestNotification from "@/hooks/fetch_test_notification";
 import { User } from "@firebase/auth";
 import { backgroundColor } from "@/const/colors";
-import useTestSurvey from "@/hooks/fetch_test_survey";
 import { logout } from "@/actions/auth";
 import AuthContext from "@/store/auth";
 
@@ -60,7 +59,6 @@ const ProfilePage = () => {
         </View>
       </View>
       <TestNotification user={ctx.user!} />
-      <TestSurvey user={ctx.user!} />
     </View>
   );
 };
@@ -94,35 +92,6 @@ const TestNotification = ({ user }: { user: User }) => {
           <Text>
             Une erreur s'est produite lors de l'envoi de la notification
           </Text>
-        )}
-      </View>
-    </View>
-  );
-};
-
-const TestSurvey = ({ user }: { user: User }) => {
-  const { sendTestSurvey, isLoading, isError } = useTestSurvey();
-
-  const handleTestSurvey = async () => {
-    const token = await user.getIdToken();
-    await sendTestSurvey(token);
-  };
-
-  return (
-    <View style={styles.section}>
-      <Text style={styles.message}>
-        Appuyer sur le bouton pour envoi un sondage de test:
-      </Text>
-      <View style={styles.buttonContainer}>
-        <Pressable
-          style={[styles.button, styles.notificationButton]}
-          onPress={handleTestSurvey}
-        >
-          <Text style={styles.buttonText}>Envoyer un sondage de test</Text>
-        </Pressable>
-        {isLoading && <CommonLoadingComponent />}
-        {isError && (
-          <Text>Une erreur s'est produite lors de l'envoi du sondage</Text>
         )}
       </View>
     </View>
