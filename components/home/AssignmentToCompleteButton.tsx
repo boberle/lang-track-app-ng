@@ -33,7 +33,7 @@ const AssignmentToCompleteButton = ({
   }, []);
 
   const handlePress = () => {
-    router.replace({
+    router.push({
       pathname: "/assignments/[id]",
       params: { id: assignmentToComplete.id },
     });
