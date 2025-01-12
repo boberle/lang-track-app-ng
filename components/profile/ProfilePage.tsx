@@ -101,11 +101,7 @@ const TestNotification = ({ user }: { user: User }) => {
 };
 
 const TestSurvey = ({ user }: { user: User }) => {
-  const {
-    sendTestSurvey,
-    isLoading: isTestSurveyLoading,
-    isError: isTestSurveyError,
-  } = useTestSurvey();
+  const { sendTestSurvey, isLoading, isError } = useTestSurvey();
 
   const handleTestSurvey = async () => {
     const token = await user.getIdToken();
@@ -124,8 +120,8 @@ const TestSurvey = ({ user }: { user: User }) => {
         >
           <Text style={styles.buttonText}>Envoyer un sondage de test</Text>
         </Pressable>
-        {isTestSurveyLoading && <CommonLoadingComponent />}
-        {isTestSurveyError && (
+        {isLoading && <CommonLoadingComponent />}
+        {isError && (
           <Text>Une erreur s'est produite lors de l'envoi du sondage</Text>
         )}
       </View>
