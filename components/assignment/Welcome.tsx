@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: "bold",
+    textAlign: "center",
   },
   logo: {
     marginBottom: 50,
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     margin: 10,
+    marginBottom: 30,
   },
 });
 

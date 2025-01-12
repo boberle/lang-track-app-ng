@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <Background>
-      <View style={[styles.container, { paddingTop: insets.top }]}>
+      <View style={[styles.container, { paddingTop: 0 }]}>
         <View style={styles.flexContainer}>
           <Text style={styles.title}>Lang Track App NG</Text>
           <Logo height={40} />
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   flexContainer: {
     alignItems: "center",
     flex: 1,
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
   title: {
     fontSize: 24,

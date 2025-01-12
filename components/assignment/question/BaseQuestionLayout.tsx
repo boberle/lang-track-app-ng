@@ -1,4 +1,11 @@
-import { View, StyleSheet, Image, ImageSourcePropType } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  ImageSourcePropType,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import Footer from "@/components/assignment/common/Footer";
 import { ReactNode } from "react";
 import { backgroundColor } from "@/const/colors";
@@ -32,7 +39,7 @@ const BaseQuestionLayout = ({
 }: BaseQuestionProps) => {
   return (
     <Background>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.icon}>
           <Icon type={iconType} />
         </View>
@@ -46,7 +53,7 @@ const BaseQuestionLayout = ({
             enableMainButton={enableNextButton}
           />
         </View>
-      </View>
+      </ScrollView>
     </Background>
   );
 };

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   characterCount: {
     fontSize: 12,
     color: "#999",
-    marginBottom: 20,
+    marginBottom: 0,
     alignSelf: "flex-end",
   },
 });

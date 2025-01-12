@@ -14,6 +14,7 @@ import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import useGetIdToken from "@/hooks/useGetIdToken";
 import { usePreventRemove } from "@react-navigation/native";
+import { KeyboardAvoidingView } from "react-native";
 
 export type AssignmentProps = {
   assignmentId: string;
@@ -45,7 +46,11 @@ const Assigment = ({ assignmentId, onClose }: AssignmentProps) => {
     return <CommonErrorComponent message="This assignment has expired." />;
   }
 
-  return <Assigment_ assignment={assignment} onClose={onClose} />;
+  return (
+    <KeyboardAvoidingView behavior="height" enabled={true}>
+      <Assigment_ assignment={assignment} onClose={onClose} />
+    </KeyboardAvoidingView>
+  );
 };
 
 export type _AssignmentProps = {
