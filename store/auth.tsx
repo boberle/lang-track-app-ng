@@ -74,6 +74,10 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     return <Redirect href="/login" />;
   }
 
+  if (userHasSetOwnPassword == null) {
+    return <CommonLoadingComponent message="Cheking whether user has set their password..." />;
+  }
+
   if (userHasSetOwnPassword === false) {
     return <Redirect href="/change-password" />;
   }
