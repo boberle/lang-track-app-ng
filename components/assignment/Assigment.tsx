@@ -13,6 +13,7 @@ import useFetchAssignment from "@/hooks/fetch_assigment";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import CommonErrorComponent from "@/components/common/CommonErrorComponent";
 import useGetIdToken from "@/hooks/useGetIdToken";
+import { usePreventRemove } from "@react-navigation/native";
 
 export type AssignmentProps = {
   assignmentId: string;
@@ -57,6 +58,15 @@ const Assigment_ = ({ assignment, onClose }: _AssignmentProps) => {
     (SingleChoiceAnswer | MultipleChoiceAnswer | OpenEndedAnswer | null)[]
   >(() => Array(assignment.questions.length).fill(null));
   const [history, setHistory] = useState<(number | null)[]>([null]);
+  const [shouldClose, setShouldClose] = useState<boolean>(false);
+
+  usePreventRemove(!shouldClose, () => {});
+
+  useEffect(() => {
+    if (shouldClose) {
+      onClose();
+    }
+  }, [shouldClose]);
 
   const handleNext = () => {
     setHistory((prevHistory) => {
@@ -128,7 +138,7 @@ const Assigment_ = ({ assignment, onClose }: _AssignmentProps) => {
     return (
       <Welcome
         message={assignment.welcomeMessage}
-        onClose={onClose}
+        onClose={() => setShouldClose(true)}
         onStart={() => setHistory([null, 0])}
       />
     );
@@ -145,7 +155,7 @@ const Assigment_ = ({ assignment, onClose }: _AssignmentProps) => {
             | null
           )[]
         }
-        onSubmit={onClose}
+        onSubmit={() => setShouldClose(true)}
         onPrevious={handlePrevious}
         enableNextButton={true}
       />
