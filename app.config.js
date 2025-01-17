@@ -2,7 +2,7 @@ export default {
   "expo": {
     "name": "lang-track-app-ng",
     "slug": "lang-track-app-ng",
-    "version": "1.0.0",
+    "version": "1.0.0-3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -14,7 +14,8 @@ export default {
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.boberle.langtrackappng"
+      "bundleIdentifier": "com.boberle.langtrackappng",
+      "buildNumber": "3",
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +23,8 @@ export default {
         "backgroundColor": "#ffffff"
       },
       "package": "com.boberle.langtrackappng",
-      "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./android/app/google-services.json"
+      "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./android/app/google-services.json",
+      "versionCode": 3,
     },
     "web": {
       "bundler": "metro",
