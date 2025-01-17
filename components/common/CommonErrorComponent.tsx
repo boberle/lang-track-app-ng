@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { logout } from "@/actions/auth";
+import { router } from "expo-router";
 
 export type CommonErrorComponentProps = {
   message?: string;
@@ -33,7 +34,10 @@ const CommonErrorComponent = ({
         <View style={styles.buttonContainer}>
           <Pressable
             style={[styles.button, styles.logoutButton]}
-            onPress={() => logout()}
+            onPress={async () => {
+              await logout();
+              router.replace("/");
+            }}
           >
             <Text style={styles.buttonText}>Logout</Text>
           </Pressable>
