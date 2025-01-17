@@ -20,7 +20,7 @@ const LoginPage = () => {
 
     try {
       await login(username, password);
-      router.navigate("/");
+      router.replace("/");
     } catch (error) {
       setIsError(true);
     } finally {
