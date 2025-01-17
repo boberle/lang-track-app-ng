@@ -75,7 +75,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }
 
   if (userHasSetOwnPassword == null) {
-    return <CommonLoadingComponent message="Cheking whether user has set their password..." />;
+    return <CommonLoadingComponent message="Checking whether user has set their password..." />;
   }
 
   if (userHasSetOwnPassword === false) {
