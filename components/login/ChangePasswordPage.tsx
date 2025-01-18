@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
 import Background from "@/components/common/Background";
@@ -96,21 +103,25 @@ const ChangePasswordPage = () => {
   return (
     <Background>
       <View style={styles.container}>
-        <Logo height={75} />
-        <View>
-          <Text style={styles.title}>Bienvenue sur</Text>
-          <Text style={styles.title}>Lang Track App NG</Text>
+        <View style={styles.logo}>
+          <Logo height={75} />
         </View>
+        <ScrollView>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Bienvenue sur</Text>
+            <Text style={styles.title}>Lang Track App NG</Text>
+          </View>
 
-        {isLoading ? (
-          <CommonLoadingComponent message="Setting up new password..." />
-        ) : isUserLoading ? (
-          <CommonLoadingComponent message="Loading user information..." />
-        ) : showErrorPopup ? (
-          <ErrorPopup onHide={() => setShowErrorPopup(false)} />
-        ) : (
-          credentialsInput
-        )}
+          {isLoading ? (
+            <CommonLoadingComponent message="Setting up new password..." />
+          ) : isUserLoading ? (
+            <CommonLoadingComponent message="Loading user information..." />
+          ) : showErrorPopup ? (
+            <ErrorPopup onHide={() => setShowErrorPopup(false)} />
+          ) : (
+            credentialsInput
+          )}
+        </ScrollView>
       </View>
     </Background>
   );
@@ -132,7 +143,6 @@ const ErrorPopup = ({ onHide }: { onHide: () => void }) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
     padding: 20,
     backgroundColor: backgroundColor,
     height: "100%",
@@ -140,8 +150,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
     textAlign: "center",
+  },
+  titleContainer: {
+    marginBottom: 30,
   },
   input: {
     height: 40,
@@ -175,6 +188,9 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     marginBottom: 20,
+  },
+  logo: {
+    marginBottom: 50,
   },
 });
 
