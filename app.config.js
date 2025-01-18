@@ -10,7 +10,7 @@ export default {
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#cec3a4"
     },
     "ios": {
       "supportsTablet": true,
@@ -20,7 +20,7 @@ export default {
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#cec3a4"
       },
       "package": "com.boberle.langtrackappng",
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./android/app/google-services.json",
