@@ -1,6 +1,6 @@
 export default {
   "expo": {
-    "name": "lang-track-app-ng",
+    "name": "LangTrackAppNG",
     "slug": "lang-track-app-ng",
     "version": "1.0.3-6",
     "orientation": "portrait",
