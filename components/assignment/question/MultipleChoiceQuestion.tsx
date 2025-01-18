@@ -54,7 +54,7 @@ const MultipleChoiceQuestion = ({
 
   return (
     <BaseQuestionLayout
-      iconType={"single"}
+      iconType={"multiple"}
       onNext={onNext}
       onPrevious={onPrevious}
       enableNextButton={enableNextButton}

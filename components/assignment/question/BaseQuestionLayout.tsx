@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Image,
   ImageSourcePropType,
-  KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
 import Footer from "@/components/assignment/common/Footer";
@@ -106,6 +105,7 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
+    borderRadius: 10,
   },
 });
 
