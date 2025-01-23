@@ -2,7 +2,7 @@ export default {
   "expo": {
     "name": "LangTrackAppNG",
     "slug": "lang-track-app-ng",
-    "version": "1.0.3-6",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -15,7 +15,7 @@ export default {
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.boberle.langtrackappng",
-      "buildNumber": "6",
+      "buildNumber": "7",
     },
     "android": {
       "adaptiveIcon": {
@@ -24,7 +24,7 @@ export default {
       },
       "package": "com.boberle.langtrackappng",
       "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./android/app/google-services.json",
-      "versionCode": 6,
+      "versionCode": 7,
     },
     "web": {
       "bundler": "metro",
