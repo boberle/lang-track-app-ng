@@ -95,10 +95,13 @@ const ChangePasswordPage = () => {
   }, [isError]);
 
   useEffect(() => {
-    if (isSuccess) {
-      logout();
-      router.replace("/");
-    }
+    const f = async () => {
+      if (isSuccess) {
+        await logout();
+        router.replace("/");
+      }
+    };
+    f();
   }, [isSuccess]);
 
   return (
