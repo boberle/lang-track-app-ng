@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
@@ -101,29 +102,31 @@ const ChangePasswordPage = () => {
   }, [isSuccess]);
 
   return (
-    <Background>
-      <View style={styles.container}>
-        <View style={styles.logo}>
-          <Logo height={75} />
-        </View>
-        <ScrollView>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Bienvenue sur</Text>
-            <Text style={styles.title}>Lang Track App NG</Text>
+    <KeyboardAvoidingView behavior="height" enabled={true}>
+      <Background>
+        <View style={styles.container}>
+          <View style={styles.logo}>
+            <Logo height={75} />
           </View>
+          <ScrollView>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>Bienvenue sur</Text>
+              <Text style={styles.title}>Lang Track App NG</Text>
+            </View>
 
-          {isLoading ? (
-            <CommonLoadingComponent message="Setting up new password..." />
-          ) : isUserLoading ? (
-            <CommonLoadingComponent message="Loading user information..." />
-          ) : showErrorPopup ? (
-            <ErrorPopup onHide={() => setShowErrorPopup(false)} />
-          ) : (
-            credentialsInput
-          )}
-        </ScrollView>
-      </View>
-    </Background>
+            {isLoading ? (
+              <CommonLoadingComponent message="Setting up new password..." />
+            ) : isUserLoading ? (
+              <CommonLoadingComponent message="Loading user information..." />
+            ) : showErrorPopup ? (
+              <ErrorPopup onHide={() => setShowErrorPopup(false)} />
+            ) : (
+              credentialsInput
+            )}
+          </ScrollView>
+        </View>
+      </Background>
+    </KeyboardAvoidingView>
   );
 };
 
