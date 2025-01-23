@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  KeyboardAvoidingView,
+} from "react-native";
 import { router } from "expo-router";
 import Logo from "@/components/common/Logo";
 import CommonLoadingComponent from "@/components/common/CommonLoadingComponent";
@@ -60,23 +67,25 @@ const LoginPage = () => {
   }, [isError]);
 
   return (
-    <Background>
-      <View style={styles.container}>
-        <Logo height={75} />
-        <View>
-          <Text style={styles.title}>Bienvenue sur</Text>
-          <Text style={styles.title}>Lang Track App NG</Text>
-        </View>
+    <KeyboardAvoidingView behavior="height" enabled={true}>
+      <Background>
+        <View style={styles.container}>
+          <Logo height={75} />
+          <View>
+            <Text style={styles.title}>Bienvenue sur</Text>
+            <Text style={styles.title}>Lang Track App NG</Text>
+          </View>
 
-        {isLoading ? (
-          <CommonLoadingComponent />
-        ) : showErrorPopup ? (
-          <ErrorPopup onHide={() => setShowErrorPopup(false)} />
-        ) : (
-          credentialsInput
-        )}
-      </View>
-    </Background>
+          {isLoading ? (
+            <CommonLoadingComponent />
+          ) : showErrorPopup ? (
+            <ErrorPopup onHide={() => setShowErrorPopup(false)} />
+          ) : (
+            credentialsInput
+          )}
+        </View>
+      </Background>
+    </KeyboardAvoidingView>
   );
 };
 
