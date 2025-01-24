@@ -15,7 +15,7 @@ export default {
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.boberle.langtrackappng",
-      "buildNumber": "7",
+      "buildNumber": "8",
     },
     "android": {
       "adaptiveIcon": {
